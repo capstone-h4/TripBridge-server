@@ -10,4 +10,10 @@ public class hello {
         return "Hello World!";
     }
 
+    @GetMapping("signup")
+    public String singup(){
+        return "회원가입";
+    }
+
+
 }
