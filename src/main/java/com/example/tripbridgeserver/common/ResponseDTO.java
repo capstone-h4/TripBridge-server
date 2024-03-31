@@ -3,7 +3,7 @@ package com.example.tripbridgeserver.common;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-// 공통 응답
+// 응답
 @Data
 @AllArgsConstructor(staticName = "set")
 public class ResponseDTO<D> {

@@ -75,6 +75,6 @@ public class UserService {
         }
 
         SecurityContextHolder.clearContext();
-        return ResponseDTO.setSuccess("정상적으로 로그아웃되었습니다.");
+        return ResponseDTO.setSuccess("로그아웃 되었습니다.");
     }
 }
