@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TripbridgeServerApplication {
 
     public static void main(String[] args) {
-
+        // 실행
         SpringApplication.run(TripbridgeServerApplication.class, args);
 
     }
