@@ -2,12 +2,11 @@ package com.example.tripbridgeserver.dto;
 
 import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.User;
-import com.example.tripbridgeserver.repository.UserRepository;
+import com.example.tripbridgeserver.repository.UserRepository1;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.sql.Timestamp;
@@ -21,12 +20,12 @@ public class MatePostDTO {
     private String content;
     private Long user_id;
 
-    private final UserRepository userRepository;
+    private final UserRepository1 userRepository1;
 
 
 
-    public MatePost toEntity(UserRepository userRepository) {
-        User user = userRepository.findById(user_id)
+    public MatePost toEntity(UserRepository1 userRepository1) {
+        User user = userRepository1.findById(user_id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + user_id));
 
         MatePost matePost = new MatePost();

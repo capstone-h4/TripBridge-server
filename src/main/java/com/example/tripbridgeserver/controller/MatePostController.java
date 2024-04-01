@@ -4,7 +4,7 @@ import com.example.tripbridgeserver.dto.MatePostDTO;
 import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.MatePostRepository;
-import com.example.tripbridgeserver.repository.UserRepository;
+import com.example.tripbridgeserver.repository.UserRepository1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +16,20 @@ import java.util.List;
 public class MatePostController {
 
     private final MatePostRepository matePostRepository;
-    private final UserRepository userRepository;
+    private final UserRepository1 userRepository1;
 
     @Autowired
-    public MatePostController(MatePostRepository matePostRepository, UserRepository userRepository) {
+    public MatePostController(MatePostRepository matePostRepository, UserRepository1 userRepository1) {
         this.matePostRepository = matePostRepository;
-        this.userRepository = userRepository;
+        this.userRepository1 = userRepository1;
     }
     @GetMapping("/user")
     public List<User> index1(){
-        return userRepository.findAll();
+        return userRepository1.findAll();
     }
     @GetMapping("/user/{id}")
     public User show1 (@PathVariable Long id){
-        return userRepository.findById(id).orElse(null);
+        return userRepository1.findById(id).orElse(null);
     }
 
 
@@ -47,14 +47,14 @@ public class MatePostController {
 
     @PostMapping("/mate")
     public MatePost create(@RequestBody  MatePostDTO dto){
-        MatePost matePost=dto.toEntity(userRepository);
+        MatePost matePost=dto.toEntity(userRepository1);
         return matePostRepository.save(matePost);
 
     }
 
     @PatchMapping("/mate/{id}")
     public ResponseEntity<MatePost> update(@PathVariable Long id, @RequestBody MatePostDTO dto){
-        MatePost matePost= dto.toEntity(userRepository);
+        MatePost matePost= dto.toEntity(userRepository1);
         MatePost target = matePostRepository.findById(id).orElse(null);
 
         if(target==null){

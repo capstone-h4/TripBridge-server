@@ -1,31 +1,28 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.MateCommentDTO;
-import com.example.tripbridgeserver.dto.MatePostDTO;
 import com.example.tripbridgeserver.entity.MateComment;
-import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.repository.MateCommentRepository;
 import com.example.tripbridgeserver.repository.MatePostRepository;
-import com.example.tripbridgeserver.repository.UserRepository;
+import com.example.tripbridgeserver.repository.UserRepository1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class MateCommentController {
 
     private final MatePostRepository matePostRepository;
-    private final UserRepository userRepository;
+    private final UserRepository1 userRepository1;
     private final MateCommentRepository mateCommentRepository;
 
     @Autowired
-    public MateCommentController(MatePostRepository matePostRepository, UserRepository userRepository, MateCommentRepository mateCommentRepository) {
+    public MateCommentController(MatePostRepository matePostRepository, UserRepository1 userRepository1, MateCommentRepository mateCommentRepository) {
         this.matePostRepository = matePostRepository;
-        this.userRepository = userRepository;
+        this.userRepository1 = userRepository1;
         this.mateCommentRepository = mateCommentRepository;
     }
     @GetMapping("/mate/comment")
@@ -45,7 +42,7 @@ public class MateCommentController {
 
     @PostMapping("/mate/comment")
     public ResponseEntity<MateComment> createComment(@RequestBody MateCommentDTO dto) {
-        MateComment mateComment = dto.toEntity(userRepository, matePostRepository);
+        MateComment mateComment = dto.toEntity(userRepository1, matePostRepository);
 
         // 부모 댓글이 있는 경우
         if (dto.getParent_comment_id() != null) {
@@ -75,7 +72,7 @@ public class MateCommentController {
 
     @PatchMapping("/mate/comment/{id}")
     public ResponseEntity<MateComment> update(@PathVariable Long id, @RequestBody MateCommentDTO dto){
-        MateComment mateComment = dto.toEntity(userRepository,matePostRepository);
+        MateComment mateComment = dto.toEntity(userRepository1,matePostRepository);
         MateComment target = mateCommentRepository.findById(id).orElse(null);
 
         if(target==null){
