@@ -18,16 +18,17 @@ import java.sql.Timestamp;
 public class MatePost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column
+    @Column(name = "content", nullable = false)
     private String content;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Timestamp created_at;
 
     @ManyToOne

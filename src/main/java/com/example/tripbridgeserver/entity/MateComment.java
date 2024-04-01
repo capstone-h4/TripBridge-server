@@ -19,17 +19,18 @@ public class MateComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "matePost_id")
     private  MatePost matePost;
 
-    @Column
+    @Column(name = "content", nullable = false)
     private String content;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name="created_at",updatable = false)
     private Timestamp created_at;
 
     @ManyToOne
@@ -40,13 +41,13 @@ public class MateComment {
     @JoinColumn(name="parent_comment_id")
     private MateComment parentComment;
 
-    @Column
+    @Column(name = "depth", nullable = false)
     private Long depth;
 
-    @Column
+    @Column(name = "comment_order", nullable = false)
     private Long comment_order;
 
-    @Column
+    @Column(name = "comment_group", nullable = false)
     private Long comment_group;
 
 }
