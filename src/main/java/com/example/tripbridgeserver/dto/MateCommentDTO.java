@@ -4,7 +4,7 @@ import com.example.tripbridgeserver.entity.MateComment;
 import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.MatePostRepository;
-import com.example.tripbridgeserver.repository.UserRepository1;
+import com.example.tripbridgeserver.repository.UserRepository2;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,11 +22,11 @@ public class MateCommentDTO {
     private Long user_id;
     private Long parent_comment_id;
 
-    private final UserRepository1 userRepository1;
+    private final UserRepository2 userRepository2;
     private  final MatePostRepository matePostRepository;
 
-    public MateComment toEntity(UserRepository1 userRepository1, MatePostRepository matePostRepository ){
-        User user = userRepository1.findById(user_id)
+    public MateComment toEntity(UserRepository2 userRepository2, MatePostRepository matePostRepository ){
+        User user = userRepository2.findById(user_id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + user_id));
         MatePost matePost = matePostRepository.findById(matePost_id)
                 .orElseThrow(() -> new RuntimeException("MatePest not found with id: " + matePost_id));
