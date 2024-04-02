@@ -33,7 +33,7 @@ public class MatePost {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private UserEntity userEntity;
 
 
 

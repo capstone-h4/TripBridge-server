@@ -2,12 +2,15 @@ package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.MateCommentDTO;
 import com.example.tripbridgeserver.entity.MateComment;
+import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.MateCommentRepository;
 import com.example.tripbridgeserver.repository.MatePostRepository;
-import com.example.tripbridgeserver.repository.UserRepository2;
+import com.example.tripbridgeserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +19,13 @@ import java.util.List;
 public class MateCommentController {
 
     private final MatePostRepository matePostRepository;
-    private final UserRepository2 userRepository2;
+    private final UserRepository userRepository;
     private final MateCommentRepository mateCommentRepository;
 
     @Autowired
-    public MateCommentController(MatePostRepository matePostRepository, UserRepository2 userRepository2, MateCommentRepository mateCommentRepository) {
+    public MateCommentController(MatePostRepository matePostRepository, UserRepository userRepository, MateCommentRepository mateCommentRepository) {
         this.matePostRepository = matePostRepository;
-        this.userRepository2 = userRepository2;
+        this.userRepository = userRepository;
         this.mateCommentRepository = mateCommentRepository;
     }
     @GetMapping("/mate/comment")
@@ -34,15 +37,13 @@ public class MateCommentController {
         return mateCommentRepository.findById(id).orElse(null);
     }
 
-    /*@PostMapping("/mate/comment")
-    public MateComment create(@RequestBody MateCommentDTO dto){
-        MateComment mateComment = dto.toEntity(userRepository,matePostRepository);
-        return mateCommentRepository.save(mateComment);
-    }*/
 
     @PostMapping("/mate/comment")
     public ResponseEntity<MateComment> createComment(@RequestBody MateCommentDTO dto) {
-        MateComment mateComment = dto.toEntity(userRepository2, matePostRepository);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        MateComment mateComment = dto.toEntity(currentUser, matePostRepository);
 
         // 부모 댓글이 있는 경우
         if (dto.getParent_comment_id() != null) {
@@ -72,7 +73,11 @@ public class MateCommentController {
 
     @PatchMapping("/mate/comment/{id}")
     public ResponseEntity<MateComment> update(@PathVariable Long id, @RequestBody MateCommentDTO dto){
-        MateComment mateComment = dto.toEntity(userRepository2,matePostRepository);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        MateComment mateComment = dto.toEntity(currentUser, matePostRepository);
+
         MateComment target = mateCommentRepository.findById(id).orElse(null);
 
         if(target==null){
@@ -80,7 +85,7 @@ public class MateCommentController {
         }
         target.setMatePost(mateComment.getMatePost());
         target.setContent(mateComment.getContent());
-        target.setUser(mateComment.getUser());
+        target.setUserEntity(mateComment.getUserEntity());
         MateComment updated = mateCommentRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
 

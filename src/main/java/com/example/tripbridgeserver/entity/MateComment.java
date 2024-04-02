@@ -35,7 +35,7 @@ public class MateComment {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name="parent_comment_id")
