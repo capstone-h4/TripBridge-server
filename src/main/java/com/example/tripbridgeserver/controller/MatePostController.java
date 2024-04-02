@@ -2,12 +2,15 @@ package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.MatePostDTO;
 import com.example.tripbridgeserver.entity.MatePost;
-import com.example.tripbridgeserver.entity.User;
+import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.MatePostRepository;
-import com.example.tripbridgeserver.repository.UserRepository2;
+import com.example.tripbridgeserver.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,20 +19,20 @@ import java.util.List;
 public class MatePostController {
 
     private final MatePostRepository matePostRepository;
-    private final UserRepository2 userRepository2;
+    private final UserRepository userRepository;
 
     @Autowired
-    public MatePostController(MatePostRepository matePostRepository, UserRepository2 userRepository2) {
+    public MatePostController(MatePostRepository matePostRepository, UserRepository userRepository) {
         this.matePostRepository = matePostRepository;
-        this.userRepository2 = userRepository2;
+        this.userRepository = userRepository;
     }
     @GetMapping("/user")
-    public List<User> index1(){
-        return userRepository2.findAll();
+    public List<UserEntity> index1(){
+        return userRepository.findAll();
     }
     @GetMapping("/user/{id}")
-    public User show1 (@PathVariable Long id){
-        return userRepository2.findById(id).orElse(null);
+    public UserEntity show1 (@PathVariable Long id){
+        return userRepository.findById(id).orElse(null);
     }
 
 
@@ -47,14 +50,20 @@ public class MatePostController {
 
     @PostMapping("/mate")
     public MatePost create(@RequestBody  MatePostDTO dto){
-        MatePost matePost=dto.toEntity(userRepository2);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        MatePost matePost=dto.toEntity(currentUser);
         return matePostRepository.save(matePost);
 
     }
 
     @PatchMapping("/mate/{id}")
     public ResponseEntity<MatePost> update(@PathVariable Long id, @RequestBody MatePostDTO dto){
-        MatePost matePost= dto.toEntity(userRepository2);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        MatePost matePost= dto.toEntity(currentUser);
         MatePost target = matePostRepository.findById(id).orElse(null);
 
         if(target==null){
@@ -63,7 +72,7 @@ public class MatePostController {
 
         target.setTitle(matePost.getTitle());
         target.setContent(matePost.getContent());
-        target.setUser(matePost.getUser());
+        target.setUserEntity(matePost.getUserEntity());
         MatePost updated = matePostRepository.save(target);
 
 
