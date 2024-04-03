@@ -15,6 +15,7 @@ public class UserResponseDTO {
     public static class Login {
         String accessToken;
         String refreshToken;
+        String nickname;
     }
 
 
