@@ -50,10 +50,12 @@ public class UserService {
 
         String refreshToken = jwtProvider.createRefreshToken(user.getEmail(), null);
         String accessToken = jwtProvider.createAccessToken(user.getEmail(), null);
+        String nickname = user.getNickname();
 
         UserResponseDTO.Login data = UserResponseDTO.Login.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .nickname(nickname)
                 .build();
 
         user.setToken(refreshToken);
