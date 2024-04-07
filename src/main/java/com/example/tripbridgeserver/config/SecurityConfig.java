@@ -35,7 +35,8 @@ public class SecurityConfig {
                     authorizeRequests.requestMatchers(
                             "/",
                             "/user/signup",
-                            "/user/login"
+                            "/user/login",
+                            "/mate/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()
