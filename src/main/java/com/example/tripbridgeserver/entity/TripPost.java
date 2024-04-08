@@ -1,0 +1,48 @@
+package com.example.tripbridgeserver.entity;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "tripPost")
+
+public class TripPost {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "content", nullable = false)
+    private String content;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private Timestamp created_at;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserEntity userEntity;
+
+    @OneToMany(mappedBy = "tripPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<TripImage> images;
+
+}
+
+
