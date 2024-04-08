@@ -23,9 +23,15 @@ public class UserService {
     public ResponseDTO<?> signup(UserRequestDTO.SignUp dto) {
 
         UserEntity user = userRepository.findByEmail(dto.getEmail());
+        UserEntity user_nickname = userRepository.findByNickname(dto.getNickname());
 
         if (user != null) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
+
+        }
+
+        if (user_nickname != null) {
+            return ResponseDTO.setFailed("중복된 Nickname 입니다.");
         }
 
         if (!dto.getPassword().equals(dto.getPw_check())) {
@@ -48,6 +54,10 @@ public class UserService {
             return ResponseDTO.setFailed("존재하지 않는 사용자입니다.");
         }
 
+        if (!verifyPassword(dto.getPassword(), user.getPassword())) {
+            return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
+        }
+
         String refreshToken = jwtProvider.createRefreshToken(user.getEmail(), null);
         String accessToken = jwtProvider.createAccessToken(user.getEmail(), null);
         String nickname = user.getNickname();
@@ -61,6 +71,10 @@ public class UserService {
         user.setToken(refreshToken);
 
         return ResponseDTO.setSuccessData("성공적으로 토큰이 발급 되었습니다.", data);
+    }
+
+    private boolean verifyPassword(String inputPassword, String storedPassword) {
+        return inputPassword.equals(storedPassword);
     }
 
     public boolean existUser(String email) {
