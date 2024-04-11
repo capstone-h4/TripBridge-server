@@ -52,7 +52,7 @@ public class TripPostController {
 
     }
 
-    @PatchMapping("/trip/{id}")
+    /*@PatchMapping("/trip/{id}")
     public ResponseEntity<TripPost> update(@PathVariable Long id, @ModelAttribute TripPostDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -64,16 +64,16 @@ public class TripPostController {
         if(target==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-
         target.setTitle(tripPost.getTitle());
         target.setContent(tripPost.getContent());
-        target.setUserEntity(tripPost.getUserEntity());
-        target.setImages(tripPost.getImages());
+        if (!dto.getImages().isEmpty()) {
+
+            tripPostService.updateImages(target, dto.getImages());
+        }
         TripPost updated = tripPostRepository.save(target);
 
-
         return ResponseEntity.status(HttpStatus.OK).body(updated);
-    }
+    }*/
 
     @DeleteMapping("/trip/{id}")
     public ResponseEntity<TripPost> delete(@PathVariable Long id){

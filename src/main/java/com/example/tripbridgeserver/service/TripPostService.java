@@ -9,6 +9,8 @@ import com.example.tripbridgeserver.entity.TripPost;
 import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.TripPostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,13 +20,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
+@Slf4j
 public class TripPostService {
 
     private final AmazonS3 amazonS3Client;
@@ -64,8 +74,12 @@ public class TripPostService {
 
     private String generateRandomImageName(String originName) {
         String random = UUID.randomUUID().toString();
+        originName = originName.replace(" ", "%20");
         return random + originName;
     }
+
+
+
 
     private String uploadImageToS3(MultipartFile image) {
         String originName = image.getOriginalFilename();
@@ -84,14 +98,38 @@ public class TripPostService {
         return amazonS3Client.getUrl(bucketName, changedName).toString();
     }
 
+    public void updateImages(TripPost tripPost, List<MultipartFile> images) {
+        List<TripImage> tripImages = new ArrayList<>();
+        for (MultipartFile imageFile : images) {
+            TripImage tripImage = new TripImage();
+            String imageUrl = uploadImageToS3(imageFile);
+            tripImage.setImageUrl(imageUrl);
+            tripImage.setTripPost(tripPost);
+            tripImages.add(tripImage);
+        }
+        tripPost.setImages(tripImages);
+    }
+
+
+
     public void deleteImageFromS3(List<TripImage> tripImages) {
         for (TripImage tripImage : tripImages) {
             String imageUrl = tripImage.getImageUrl();
-            String imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1); // URL에서 이미지 이름 추출
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName)); // S3 버킷에서 이미지 삭제
+            // S3 객체의 키(Key)를 추출
+            String objectKey = getObjectKeyFromImageUrl(imageUrl);
+            // S3 버킷에서 이미지 삭제
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, objectKey));
         }
     }
 
+    private String getObjectKeyFromImageUrl(String imageUrl) {
+        String bucketEndMarker = ".com/";
+        int bucketEndIndex = imageUrl.indexOf(bucketEndMarker) + bucketEndMarker.length();
+        String objectKey = imageUrl.substring(bucketEndIndex);
+        log.info("Extracted object key from URL: {}", objectKey);
+
+        return objectKey;
+    }
 }
 
 
