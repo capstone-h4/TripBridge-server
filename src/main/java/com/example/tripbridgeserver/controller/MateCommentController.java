@@ -2,10 +2,12 @@ package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.MateCommentDTO;
 import com.example.tripbridgeserver.entity.MateComment;
+import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.MateCommentRepository;
 import com.example.tripbridgeserver.repository.MatePostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 public class MateCommentController {
 
@@ -28,6 +30,7 @@ public class MateCommentController {
         this.userRepository = userRepository;
         this.mateCommentRepository = mateCommentRepository;
     }
+
     @GetMapping("/mate/comment")
         public List<MateComment> index(){
             return mateCommentRepository.findAll();
@@ -35,6 +38,16 @@ public class MateCommentController {
     @GetMapping("/mate/comment/{id}")
     public MateComment show (@PathVariable Long id){
         return mateCommentRepository.findById(id).orElse(null);
+    }
+    @GetMapping("/mate/{id}/comment")
+    public List<MateComment> comment (@PathVariable Long id){
+       MatePost matePost = matePostRepository.findById(id).orElse(null);
+       if (matePost != null){
+       return mateCommentRepository.findByMatePost(matePost) ; }
+       else {
+           return null; // 또는 예외를 처리하거나 적절한 방법으로 처리
+       }
+
     }
 
 

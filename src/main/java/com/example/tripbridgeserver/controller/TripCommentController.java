@@ -36,6 +36,7 @@ public class TripCommentController {
     }
 
 
+
     @PostMapping("/trip/comment")
     public ResponseEntity<TripComment> createComment(@RequestBody TripCommentDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
