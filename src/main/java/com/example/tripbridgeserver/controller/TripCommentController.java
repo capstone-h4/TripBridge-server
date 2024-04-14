@@ -1,8 +1,7 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.TripCommentDTO;
-import com.example.tripbridgeserver.entity.TripComment;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.*;
 import com.example.tripbridgeserver.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +34,16 @@ public class TripCommentController {
         return tripCommentRepository.findById(id).orElse(null);
     }
 
+    @GetMapping("/trip/{id}/comment")
+    public List<TripComment> comment (@PathVariable Long id){
+        TripPost tripPost = tripPostRepository.findById(id).orElse(null);
+        if (tripPost != null){
+            return tripCommentRepository.findByTripPost(tripPost) ; }
+        else {
+            return null; // 또는 예외를 처리하거나 적절한 방법으로 처리
+        }
+
+    }
 
 
     @PostMapping("/trip/comment")
