@@ -1,7 +1,5 @@
 package com.example.tripbridgeserver.repository;
 
-import com.example.tripbridgeserver.entity.MateComment;
-import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.TripComment;
 import com.example.tripbridgeserver.entity.TripPost;
 import org.springframework.data.jpa.repository.JpaRepository;
