@@ -26,14 +26,13 @@ public class MapController {
     }
     @GetMapping("/scrap")
     public List<Scrap> show(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userEmail = authentication.getName();
-//        UserEntity currentUser = userRepository.findByEmail(userEmail);
-//
-//        List<Scrap> scraps = scrapRepository.findByUserEntity(currentUser);
-//        return scraps;
 
-        return scrapRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+
+        List<Scrap> scraps = scrapRepository.findByUserEntity(currentUser);
+        return scraps;
 
     }
 }
