@@ -38,7 +38,8 @@ public class SecurityConfig {
                             "/user/login",
                             "/mate/**",
                             "/trip/**",
-                            "/filter/**"
+                            "/filter/**",
+                            "/scrap/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()
