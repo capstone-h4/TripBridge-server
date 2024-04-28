@@ -42,6 +42,20 @@ public class RouteService {
     public void calculateRouteOrder() {
         List<Route> routes = routeRepository.findAll();
 
+        // 초기 노드를 찾기 위해 route_order가 1인 노드를 찾습니다.
+        Route initialRoute = routes.stream()
+                .filter(route -> route.getRoute_order() == 1)
+                .findFirst()
+                .orElse(null);
+
+        // 초기 노드가 없는 경우 처리
+        if (initialRoute == null) {
+            // 처리할 초기 노드가 없으므로 여기서 종료하거나 예외 처리를 수행할 수 있습니다.
+            return;
+        }
+
+        String initialPlace = initialRoute.getPlace();
+
         // 장소 간 연결을 나타내는 그래프 생성
         Graph<String, DefaultWeightedEdge> graph = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
@@ -62,55 +76,48 @@ public class RouteService {
         }
 
         // 경로 순서를 저장하는 맵
-        // 첫 번째 노드를 출발점으로 선택하여 경로 순서 업데이트
-        Route firstRoute = routes.get(0);
-        String sourcePlace = firstRoute.getPlace(); // 첫 번째 노드를 출발점으로 설정
         Map<String, Integer> distanceMap = new HashMap<>();
 
         // 출발지를 설정하여 그래프를 생성
-        // 출발지를 설정하여 그래프를 생성
         DijkstraShortestPath<String, DefaultWeightedEdge> dijkstraShortestPath = new DijkstraShortestPath<>(graph);
 
-        // 출발지를 설정하여 getPath 메서드를 호출
+        // 출발지에서 모든 다른 장소로의 최단 거리를 계산하여 맵에 저장
+        Map<String, Double> distancesFromInitial = new HashMap<>();
         for (Route targetRoute : routes) {
-            if (!sourcePlace.equals(targetRoute.getPlace())) {
-                GraphPath<String, DefaultWeightedEdge> shortestPath = dijkstraShortestPath.getPath(sourcePlace, targetRoute.getPlace());
+            if (!initialPlace.equals(targetRoute.getPlace())) {
+                GraphPath<String, DefaultWeightedEdge> shortestPath = dijkstraShortestPath.getPath(initialPlace, targetRoute.getPlace());
                 if (shortestPath != null) {
                     double distance = 0;
                     for (DefaultWeightedEdge edge : shortestPath.getEdgeList()) {
                         distance += graph.getEdgeWeight(edge);
                     }
-                    distanceMap.put(targetRoute.getPlace(), (int) distance); // 거리 저장
+                    distancesFromInitial.put(targetRoute.getPlace(), distance);
                 }
             }
         }
 
-        // 거리에 따라 장소 정렬
-        List<String> sortedPlaces = distanceMap.entrySet().stream()
+        // 거리에 따라 장소 정렬하여 거리 맵에 저장
+        List<String> sortedPlaces = distancesFromInitial.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+                .toList();
 
-        // 데이터베이스에서 이미 할당된 route_order 값을 가져오기
-        Map<String, Long> existingRouteOrders = routes.stream()
-                .collect(Collectors.toMap(Route::getPlace, Route::getRoute_order));
-
-        // 정렬된 장소를 기반으로 경로 순서 업데이트
+        // 경로 순서 맵을 업데이트
         int routeOrder = 1;
         for (String place : sortedPlaces) {
-            // 이미 route_order이 설정된 경우에는 기존 값 유지
-            Long existingOrder = existingRouteOrders.get(place);
-            if (existingOrder != null) {
-                routeOrder = existingOrder.intValue();
-            } else {
-                // route_order이 설정되지 않은 경우에만 업데이트
-                routeOrder = existingOrder != null ? existingOrder.intValue() : routeOrder;
-                firstRoute.setRoute_order((long) routeOrder++);
-            }
+            distanceMap.put(place, ++routeOrder);
         }
 
-        routeRepository.save(firstRoute);
+        // 경로 순서 맵을 이용하여 모든 루트의 route_order 업데이트
+        for (Route route : routes) {
+            Integer routeOrderValue = distanceMap.get(route.getPlace());
+            if (routeOrderValue != null) {
+                route.setRoute_order((long) routeOrderValue);
+                routeRepository.save(route);
+            }
+        }
     }
+
 
     private double calculateDistance(BigDecimal lat1, BigDecimal lon1, BigDecimal lat2, BigDecimal lon2) {
         // 위도와 경도의 차이를 제곱하여 더하고, 제곱근을 취해서 거리를 구합니다.
@@ -121,7 +128,5 @@ public class RouteService {
         // 결과를 미터 단위로 반환합니다.
         return distance * 111000; // 대략적인 값으로 위도 1도당 약 111 킬로미터라고 가정합니다.
     }
-
-
 
 }
