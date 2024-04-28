@@ -45,7 +45,7 @@ public class FilterController {
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
 
             String returnLine;
-            result.append("<xmp>");
+            result.append("<pre>");
             while((returnLine = br.readLine()) != null){
                 result.append(returnLine+ "\n");
             }
@@ -56,7 +56,7 @@ public class FilterController {
 
         }
 
-        return result+"</xmp>";
+        return result+"</pre>";
     }
 
 
