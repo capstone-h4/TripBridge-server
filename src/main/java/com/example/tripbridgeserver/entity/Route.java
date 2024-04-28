@@ -34,4 +34,8 @@ public class Route {
 
     @Column(name = "route_order")
     private Long route_order;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserEntity userEntity;
 }

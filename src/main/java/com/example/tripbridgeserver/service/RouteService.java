@@ -2,6 +2,7 @@ package com.example.tripbridgeserver.service;
 
 import com.example.tripbridgeserver.dto.RouteDTO;
 import com.example.tripbridgeserver.entity.Route;
+import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.RouteRepository;
 import org.jgrapht.GraphPath;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,14 @@ public class RouteService {
         this.routeRepository = routeRepository;
     }
 
-    public Route toEntity(RouteDTO dto){
+    public Route toEntity(RouteDTO dto, UserEntity currentUser){
         Route route = new Route();
         route.setPlace(dto.getPlace());
         route.setAddress(dto.getAddress());
         route.setLatitude(dto.getLatitude());
         route.setLongitude(dto.getLongitude());
         route.setRoute_order(dto.getRoute_order());
+        route.setUserEntity(currentUser);
 
         return route;
     }
