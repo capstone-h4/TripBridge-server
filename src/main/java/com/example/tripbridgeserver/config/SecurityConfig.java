@@ -38,6 +38,7 @@ public class SecurityConfig {
                             "/user/login",
                             "/mate/**",
                             "/trip/**",
+                            "/scrap/**",
                             "/place/**"
                     ).permitAll();
 
