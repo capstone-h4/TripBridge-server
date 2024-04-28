@@ -24,13 +24,13 @@ public class MapController {
         this.scrapRepository = scrapRepository;
         this.userRepository = userRepository;
     }
+
     @GetMapping("/scrap")
     public List<Scrap> show(){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserEntity currentUser = userRepository.findByEmail(userEmail);
-
         List<Scrap> scraps = scrapRepository.findByUserEntity(currentUser);
         return scraps;
 

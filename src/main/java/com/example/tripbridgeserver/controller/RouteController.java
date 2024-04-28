@@ -10,6 +10,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,11 @@ public class RouteController {
         return routeRepository.save(route);
     }
 
+    @DeleteMapping("/route")
+    public void deleteAllRoutes(){
+        routeRepository.deleteAll();
+
+    }
 
     @PostMapping("/route/update")
     public void updateRoutes() {

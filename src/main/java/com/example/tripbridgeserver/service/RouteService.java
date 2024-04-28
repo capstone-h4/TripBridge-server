@@ -42,12 +42,15 @@ public class RouteService {
     public void calculateRouteOrder() {
         List<Route> routes = routeRepository.findAll();
 
-        // 초기 노드를 찾기 위해 route_order가 1인 노드를 찾습니다.
-        Route initialRoute = routes.stream()
-                .filter(route -> route.getRoute_order() == 1)
-                .findFirst()
-                .orElse(null);
-
+        // 초기 노드를 찾기 위해 데이터를 순차적으로 확인하면서 route_order가 1인 노드를 찾습니다.
+        Route initialRoute = null;
+        for (Route route : routes) {
+            Long routeOrder = route.getRoute_order();
+            if (routeOrder != null && routeOrder == 1) {
+                initialRoute = route;
+                break;
+            }
+        }
         // 초기 노드가 없는 경우 처리
         if (initialRoute == null) {
             // 처리할 초기 노드가 없으므로 여기서 종료하거나 예외 처리를 수행할 수 있습니다.
