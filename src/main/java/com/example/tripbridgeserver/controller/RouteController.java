@@ -1,6 +1,7 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.RouteDTO;
+import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.Route;
 import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.RouteRepository;
@@ -10,10 +11,9 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class RouteController {
@@ -39,16 +39,16 @@ public class RouteController {
         routeService.calculateRouteOrder();
         return routeRepository.save(route);
     }
-
-    @DeleteMapping("/route")
-    public void deleteAllRoutes(){
-        routeRepository.deleteAll();
-
-    }
-
     @PostMapping("/route/update")
     public void updateRoutes() {
         routeService.calculateRouteOrder();
     }
-
+    @GetMapping("/route")
+    public List<Route> index(){
+        return routeRepository.findAll();
+    }
+    @DeleteMapping("/route")
+    public void deleteAllRoutes(){
+        routeRepository.deleteAll();
+    }
 }
