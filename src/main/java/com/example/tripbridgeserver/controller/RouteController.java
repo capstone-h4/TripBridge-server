@@ -36,7 +36,7 @@ public class RouteController {
         UserEntity currentUser = userRepository.findByEmail(userEmail);
 
         Route route = routeService.toEntity(dto,currentUser);
-        routeService.calculateRouteOrder();
+
         return routeRepository.save(route);
     }
     @PostMapping("/route/update")
