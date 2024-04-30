@@ -39,8 +39,11 @@ public class SecurityConfig {
                             "/mate/**",
                             "/trip/**",
                             "/scrap/**",
-                            "/place/**"      
-
+                            "/place/**",
+                            "/filter/**",
+                            "/scrap/**",
+                            "/route/**",
+                            "/place/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()

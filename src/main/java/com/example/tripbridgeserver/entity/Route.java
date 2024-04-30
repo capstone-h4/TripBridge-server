@@ -11,10 +11,10 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "scrap")
-public class Scrap {
+@NoArgsConstructor
+@Table(name = "route")
+public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,8 +32,10 @@ public class Scrap {
     @Column(name = "longitude")
     private BigDecimal longitude;
 
+    @Column(name = "route_order")
+    private Long route_order;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private UserEntity userEntity;
 }
-
