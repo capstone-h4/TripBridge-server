@@ -12,6 +12,8 @@ import java.net.URL;
 @RestController
 public class FilterController {
 
+    //서비스,dto 등 분리하기, cat3 추가(필수x)
+
     // 공공 api 이용한 장소 필터링 기능
     // encoding 서비스키 사용
     @GetMapping("/place/list")
@@ -21,8 +23,19 @@ public class FilterController {
           @RequestParam("cat1") String cat1,
           @RequestParam("cat2") String cat2
 //            @RequestParam("cat3") String cat3,
+//          @RequestParam(value = "areaCode", required = false, defaultValue = "") String areaCode,
+//          @RequestParam(value = "contentTypeId", required = false, defaultValue = "") String contentTypeId,
+//          @RequestParam(value = "cat1", required = false, defaultValue = "") String cat1,
+//          @RequestParam(value = "cat2", required = false, defaultValue = "") String cat2
 
-    ){
+          ){
+
+//        // null을 체크하고, null일 경우 빈 문자열로 대체
+//        areaCode = (areaCode != null) ? areaCode : "";
+//        contentTypeId = (contentTypeId != null) ? contentTypeId : "";
+//        cat1 = (cat1 != null) ? cat1 : "";
+//        cat2 = (cat2 != null) ? cat2 : "";
+//        //cat3 = (cat3 != null) ? cat3 : "";
 
         StringBuffer result = new StringBuffer();
         try{
@@ -45,7 +58,7 @@ public class FilterController {
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
 
             String returnLine;
-            result.append("<pre>");
+            //result.append("<pre>");
             while((returnLine = br.readLine()) != null){
                 result.append(returnLine+ "\n");
             }
@@ -56,7 +69,8 @@ public class FilterController {
 
         }
 
-        return result+"</pre>";
+        //return result+"</pre>";
+        return result.toString();
     }
 
 
