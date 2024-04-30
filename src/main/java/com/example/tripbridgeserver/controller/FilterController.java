@@ -21,8 +21,8 @@ public class FilterController {
           @RequestParam("areaCode") String areaCode,
           @RequestParam("contentTypeId") String contentTypeId,
           @RequestParam("cat1") String cat1,
-          @RequestParam("cat2") String cat2
-//            @RequestParam("cat3") String cat3,
+          @RequestParam("cat2") String cat2,
+          @RequestParam(value = "cat3", required = false, defaultValue = "") String cat3
 //          @RequestParam(value = "areaCode", required = false, defaultValue = "") String areaCode,
 //          @RequestParam(value = "contentTypeId", required = false, defaultValue = "") String contentTypeId,
 //          @RequestParam(value = "cat1", required = false, defaultValue = "") String cat1,
@@ -47,7 +47,7 @@ public class FilterController {
                     "&contentTypeId=" + contentTypeId +
                     "&cat1=" + cat1 +
                     "&cat2=" + cat2 +
-//                    "&cat3=" + cat3 +
+                    "&cat3=" + cat3 +
                     "&serviceKey=YGF0y1fe6pkkysTM1WzMH9htWqLp7iiY2fuy%2BJiEFoI%2BKH%2BON1EnErgGxvE6T2Z5awLIIAlQcuD9hjylPI6GYg%3D%3D" +
                     "&_type=json";
             URL url = new URL(urlstr);
