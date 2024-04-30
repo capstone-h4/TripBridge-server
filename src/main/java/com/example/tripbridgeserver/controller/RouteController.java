@@ -36,13 +36,14 @@ public class RouteController {
         UserEntity currentUser = userRepository.findByEmail(userEmail);
 
         Route route = routeService.toEntity(dto,currentUser);
-
         return routeRepository.save(route);
     }
+
     @PostMapping("/route/update")
     public void updateRoutes() {
         routeService.calculateRouteOrder();
     }
+
     @GetMapping("/route")
     public List<Route> index(){
         return routeRepository.findAll();
