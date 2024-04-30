@@ -40,7 +40,8 @@ public class SecurityConfig {
                             "/trip/**",
                             "/filter/**",
                             "/scrap/**",
-                            "/route/**"
+                            "/route/**",
+                            "/place/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()
