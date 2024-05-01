@@ -43,7 +43,9 @@ public class SecurityConfig {
                             "/filter/**",
                             "/scrap/**",
                             "/route/**",
-                            "/place/**"
+                            "/place/**",
+                            "/storage/**",
+                            "/storage"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()
