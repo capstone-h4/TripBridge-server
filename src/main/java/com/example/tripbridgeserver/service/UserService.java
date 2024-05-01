@@ -27,7 +27,6 @@ public class UserService {
 
         if (user != null) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
-
         }
 
         if (user_nickname != null) {

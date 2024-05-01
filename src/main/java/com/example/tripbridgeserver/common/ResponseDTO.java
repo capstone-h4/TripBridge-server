@@ -27,5 +27,7 @@ public class ResponseDTO<D> {
         return ResponseDTO.set(false, message, data);
     }
 
-
+    public static ResponseDTO<Void> setError(String message) {
+        return ResponseDTO.setError(message);
+    }
 }

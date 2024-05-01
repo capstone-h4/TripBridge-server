@@ -17,7 +17,7 @@ public class FilterController {
     }
 
 
-    // 공공 api 이용한 장소 필터링 기능
+    // 공공데이터 api 이용한 장소 필터링
     @GetMapping("/place/list")
     public ResponseEntity<String> showPlace(
             @RequestParam("areaCode") String areaCode,
