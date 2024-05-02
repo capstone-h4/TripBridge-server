@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,6 +47,10 @@ public class TripPostController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserEntity currentUser = userRepository.findByEmail(userEmail);
+
+        if (dto.getImages() == null) {
+            dto.setImages(new ArrayList<>()); // 이미지 목록을 빈 리스트로 설정
+        }
 
         TripPost tripPost= tripPostService.toEntity(dto,currentUser);
         return tripPostRepository.save(tripPost);

@@ -31,7 +31,4 @@ public class TripPostDTO {
     private String title;
     private String content;
     private List<MultipartFile> images;
-
-
-
 }
