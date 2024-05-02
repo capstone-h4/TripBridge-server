@@ -34,7 +34,7 @@ public class TripPostController {
 
     @GetMapping("/trip")
     public List<TripPost> index(){
-        return tripPostRepository.findAll();
+        return tripPostRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @GetMapping("/trip/{id}")

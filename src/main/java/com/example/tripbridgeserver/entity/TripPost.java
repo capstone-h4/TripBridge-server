@@ -32,8 +32,8 @@ public class TripPost {
     private String content;
 
     @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Timestamp created_at;
+    @Column(name = "createdAt", updatable = false)
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name="user_id")

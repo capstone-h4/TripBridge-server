@@ -40,7 +40,8 @@ public class MatePostController {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("/mate")
     public List<MatePost> index(){
-        return matePostRepository.findAll();
+
+        return matePostRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @GetMapping("/mate/{id}")

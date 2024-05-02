@@ -55,7 +55,7 @@ public class TripPostService {
         TripPost tripPost = new TripPost();
         tripPost.setTitle(dto.getTitle());
         tripPost.setContent(dto.getContent());
-        tripPost.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        tripPost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         tripPost.setUserEntity(currentUser);
 
         List<TripImage> tripImages = new ArrayList<>();

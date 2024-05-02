@@ -24,7 +24,7 @@ public class MatePostDTO {
         MatePost matePost = new MatePost();
         matePost.setTitle(this.title);
         matePost.setContent(this.content);
-        matePost.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        matePost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         matePost.setUserEntity(currentUser);
         return matePost;
     }
