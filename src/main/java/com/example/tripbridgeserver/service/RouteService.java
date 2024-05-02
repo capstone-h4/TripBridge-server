@@ -4,6 +4,7 @@ import com.example.tripbridgeserver.dto.RouteDTO;
 import com.example.tripbridgeserver.entity.Route;
 import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.RouteRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.jgrapht.GraphPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class RouteService {
     private final RouteRepository routeRepository;
 
@@ -74,6 +76,7 @@ public class RouteService {
                     double distance = calculateDistance(route1.getLatitude(), route1.getLongitude(), route2.getLatitude(), route2.getLongitude());
                     DefaultWeightedEdge edge = graph.addEdge(route1.getPlace(), route2.getPlace());
                     graph.setEdgeWeight(edge, distance);
+                    log.info("Edge from {} to {} added with weight: {}", route1.getPlace(), route2.getPlace(), distance);
                 }
             }
         }
