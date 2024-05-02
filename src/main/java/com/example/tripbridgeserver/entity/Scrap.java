@@ -35,5 +35,6 @@ public class Scrap {
     @ManyToOne
     @JoinColumn(name="user_id")
     private UserEntity userEntity;
+
 }
 
