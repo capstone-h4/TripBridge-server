@@ -28,7 +28,7 @@ public class FilterService {
 
     private String variableUrl(String areaCode, String contentTypeId, String cat1, String cat2, String cat3) {
         return "https://apis.data.go.kr/B551011/KorService1/areaBasedList1?" +
-                "numOfRows=150" +
+                "numOfRows=300" +
                 "&MobileOS=ETC" +
                 "&MobileApp=TripBridge" +
                 "&areaCode=" + areaCode +
