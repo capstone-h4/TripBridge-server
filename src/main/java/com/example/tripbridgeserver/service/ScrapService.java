@@ -28,22 +28,41 @@ public class ScrapService {
         this.userRepository = userRepository;
     }
 
-    public Scrap create(ScrapDTO dto) {
+//    public Scrap create(ScrapDTO dto) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String userEmail = authentication.getName();
+//        UserEntity currentUser = userRepository.findByEmail(userEmail);
+//        Scrap scrap = dto.toEntity(currentUser);
+//        return scrapRepository.save(scrap);
+//    }
+
+    public ResponseDTO<Scrap> create(ScrapDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserEntity currentUser = userRepository.findByEmail(userEmail);
+
+        if (currentUser == null) {
+            return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
+        }
+
+        List<Scrap> userScraps = scrapRepository.findByUserEntity(currentUser);
+
+        for (Scrap scrap : userScraps) {
+            if (scrap.getPlace().equals(dto.getPlace())) {
+                return ResponseDTO.setFailed("해당 장소가 이미 저장되어 있습니다. 저장에 실패하였습니다.");
+            }
+        }
+
         Scrap scrap = dto.toEntity(currentUser);
-        return scrapRepository.save(scrap);
+        scrap = scrapRepository.save(scrap);
+
+        if (scrap != null) {
+            return ResponseDTO.setSuccessData("성공적으로 저장을 완료하였습니다.", scrap);
+        } else {
+            return ResponseDTO.setFailed("저장에 실패하였습니다.");
+        }
     }
 
-//    public ResponseEntity<Scrap> delete(Long id) {
-//        Scrap target = scrapRepository.findById(id).orElse(null);
-//        if (target == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//        }
-//        scrapRepository.delete(target);
-//        return ResponseEntity.status(HttpStatus.OK).body(null);
-//    }
 
     public ResponseEntity<ResponseDTO<Void>> delete(Long id) {
         Scrap target = scrapRepository.findById(id).orElse(null);
