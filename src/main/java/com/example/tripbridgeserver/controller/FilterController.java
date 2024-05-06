@@ -31,7 +31,7 @@ public class FilterController {
             String result = filterService.getFilteredPlaces(areaCode, contentTypeId, cat1, cat2, cat3);
             return ResponseEntity.ok(result);
         } catch (FilterServiceException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터를 가져오는 동안 오류가 발생하였습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터를 가져오는 중 오류가 발생하였습니다.");
         }
 
     }
