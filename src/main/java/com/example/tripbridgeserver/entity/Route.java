@@ -32,8 +32,8 @@ public class Route {
     @Column(name = "longitude")
     private BigDecimal longitude;
 
-    @Column(name = "route_order")
-    private Long route_order;
+    @Column(name = "routeOrder")
+    private Long routeOrder;
 
     @ManyToOne
     @JoinColumn(name="user_id")

@@ -46,7 +46,7 @@ public class RouteController {
 
     @GetMapping("/route")
     public List<Route> index(){
-        return routeRepository.findAll();
+        return routeRepository.findAllByOrderByRouteOrderAsc();
     }
     @DeleteMapping("/route")
     public void deleteAllRoutes(){

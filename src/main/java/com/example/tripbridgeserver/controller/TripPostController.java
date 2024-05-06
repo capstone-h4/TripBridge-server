@@ -86,11 +86,9 @@ public class TripPostController {
         if(target==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-
         tripPostService.deleteImageFromS3(target.getImages());
         tripPostRepository.delete(target);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
 }
 
