@@ -14,6 +14,6 @@ public class RouteDTO {
     private String address;
     private BigDecimal latitude;
     private BigDecimal longitude;
-    private Long routeOrder;
+    private Long route_order;
 
 }

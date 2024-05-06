@@ -28,7 +28,7 @@ public class RouteService {
         route.setAddress(dto.getAddress());
         route.setLatitude(dto.getLatitude());
         route.setLongitude(dto.getLongitude());
-        route.setRouteOrder(dto.getRouteOrder());
+        route.setRoute_order(dto.getRoute_order());
         route.setUserEntity(currentUser);
 
         return route;
@@ -40,7 +40,7 @@ public class RouteService {
         // 초기 노드를 찾기 위해 데이터를 순차적으로 확인하면서 route_order가 1인 노드를 찾습니다.
         Route initialRoute = null;
         for (Route route : routes) {
-            Long routeOrder = route.getRouteOrder();
+            Long routeOrder = route.getRoute_order();
             if (routeOrder != null && routeOrder == 1) {
                 initialRoute = route;
                 break;
@@ -59,7 +59,7 @@ public class RouteService {
         // 경로 순서를 업데이트
         for (int i = 0; i < optimizedRoute.size(); i++) {
             Route route = optimizedRoute.get(i);
-            route.setRouteOrder((long) (i + 1)); // 경로 순서는 1부터 시작합니다.
+            route.setRoute_order((long) (i + 1)); // 경로 순서는 1부터 시작합니다.
             routeRepository.save(route);
         }
     }
