@@ -65,6 +65,8 @@ public class RouteController {
             chatRoute.setPlace(route.getPlace());
             chatRoute.setAddress(route.getAddress());
             chatRoute.setRoute_order(route.getRoute_order());
+            chatRoute.setLatitude(route.getLatitude());
+            chatRoute.setLongitude(route.getLongitude());
             chatRoute.setUserEntity(route.getUserEntity());
 
             chatRouteRepository.save(chatRoute);

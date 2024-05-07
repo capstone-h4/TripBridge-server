@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -23,6 +25,12 @@ public class ChatRoute {
 
     @Column(name = "address")
     private String address;
+
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+
+    @Column(name = "longitude")
+    private BigDecimal longitude;
 
     @Column(name = "route_order")
     private Long route_order;
