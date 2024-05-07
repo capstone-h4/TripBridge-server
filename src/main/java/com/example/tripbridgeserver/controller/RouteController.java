@@ -43,13 +43,19 @@ public class RouteController {
     public void updateRoutes() {
         routeService.calculateRouteOrder();
     }
-
     @GetMapping("/route")
     public List<Route> index(){
         return routeRepository.findAll();
     }
+
+    /*@PostMapping("route/chat"){
+
+
+    }*/
+
     @DeleteMapping("/route")
     public void deleteAllRoutes(){
         routeRepository.deleteAll();
     }
+
 }
