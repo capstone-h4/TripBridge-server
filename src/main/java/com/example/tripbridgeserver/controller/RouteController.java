@@ -1,9 +1,11 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.RouteDTO;
+import com.example.tripbridgeserver.entity.ChatRoute;
 import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.Route;
 import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.repository.ChatRouteRepository;
 import com.example.tripbridgeserver.repository.RouteRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.service.RouteService;
@@ -20,12 +22,18 @@ public class RouteController {
     private final RouteService routeService;
     private final RouteRepository routeRepository;
     private final UserRepository userRepository;
+    private final ChatRouteRepository chatRouteRepository;
 
     @Autowired
-    public RouteController(RouteService routeService, RouteRepository routeRepository, UserRepository userRepository){
+    public RouteController(RouteService routeService, RouteRepository routeRepository, UserRepository userRepository, ChatRouteRepository chatRouteRepository){
         this.routeService = routeService;
         this.routeRepository = routeRepository;
         this.userRepository = userRepository;
+        this.chatRouteRepository = chatRouteRepository;
+    }
+    @DeleteMapping("route/chat")
+    public void deleteAllChatRoute(){
+        chatRouteRepository.deleteAll();
     }
 
     @PostMapping("/route")
@@ -48,10 +56,20 @@ public class RouteController {
         return routeRepository.findAll();
     }
 
-    /*@PostMapping("route/chat"){
+    @PostMapping("route/chat")
+    public void copyToChatRoute(){
+        List<Route> routes = routeRepository.findAll();
+        for (Route route : routes) {
+            ChatRoute chatRoute = new ChatRoute();
 
+            chatRoute.setPlace(route.getPlace());
+            chatRoute.setAddress(route.getAddress());
+            chatRoute.setRoute_order(route.getRoute_order());
+            chatRoute.setUserEntity(route.getUserEntity());
 
-    }*/
+            chatRouteRepository.save(chatRoute);
+        }
+    }
 
     @DeleteMapping("/route")
     public void deleteAllRoutes(){
