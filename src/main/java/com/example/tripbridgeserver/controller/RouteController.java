@@ -18,9 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class RouteController {
@@ -64,11 +62,11 @@ public class RouteController {
     @PostMapping("route/chat")
     @Transactional
     public void copyToChatRoute(){
-        Set<Route> processedRoutes = new HashSet<>();
+        Map<Long, Boolean> processedRouteIds = new HashMap<>(); // 이미 처리된 Route의 ID를 저장하는 Map
 
         List<Route> routes = routeRepository.findAll();
         for (Route route : routes) {
-            if (!processedRoutes.contains(route)) { // 이미 처리된 Route인지 확인
+            if (!processedRouteIds.containsKey(route.getId())) { // 이미 처리된 Route인지 확인
                 ChatRoute chatRoute = new ChatRoute();
 
                 chatRoute.setPlace(route.getPlace());
@@ -80,7 +78,7 @@ public class RouteController {
 
                 chatRouteRepository.save(chatRoute);
 
-                processedRoutes.add(route); // 처리된 Route를 Set에 추가
+                processedRouteIds.put(route.getId(), true); // 처리된 Route의 ID를 Map에 추가
             }
         }
     }
@@ -126,8 +124,4 @@ public class RouteController {
 
         return ResponseEntity.ok(promptBuilder.toString());
     }
-
-
-
-
 }
