@@ -35,8 +35,13 @@ public class RouteController {
         this.chatRouteRepository = chatRouteRepository;
     }
     @DeleteMapping("route/chat")
-    public void deleteAllChatRoute(){
-        chatRouteRepository.deleteAll();
+    public void deleteUsersChatRoute(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+
+        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntity(currentUser);
+        chatRouteRepository.deleteAll(chatRoutes);
     }
 
     @PostMapping("/route")
