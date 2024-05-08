@@ -18,7 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class RouteController {
@@ -62,18 +64,24 @@ public class RouteController {
     @PostMapping("route/chat")
     @Transactional
     public void copyToChatRoute(){
+        Set<Route> processedRoutes = new HashSet<>();
+
         List<Route> routes = routeRepository.findAll();
         for (Route route : routes) {
-            ChatRoute chatRoute = new ChatRoute();
+            if (!processedRoutes.contains(route)) { // 이미 처리된 Route인지 확인
+                ChatRoute chatRoute = new ChatRoute();
 
-            chatRoute.setPlace(route.getPlace());
-            chatRoute.setAddress(route.getAddress());
-            chatRoute.setRoute_order(route.getRoute_order());
-            chatRoute.setLatitude(route.getLatitude());
-            chatRoute.setLongitude(route.getLongitude());
-            chatRoute.setUserEntity(route.getUserEntity());
+                chatRoute.setPlace(route.getPlace());
+                chatRoute.setAddress(route.getAddress());
+                chatRoute.setRoute_order(route.getRoute_order());
+                chatRoute.setLatitude(route.getLatitude());
+                chatRoute.setLongitude(route.getLongitude());
+                chatRoute.setUserEntity(route.getUserEntity());
 
-            chatRouteRepository.save(chatRoute);
+                chatRouteRepository.save(chatRoute);
+
+                processedRoutes.add(route); // 처리된 Route를 Set에 추가
+            }
         }
     }
 
