@@ -45,7 +45,8 @@ public class SecurityConfig {
                             "/route/**",
                             "/place/**",
                             "/storage/**",
-                            "/storage"
+                            "/storage",
+                            "/chatBot/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()

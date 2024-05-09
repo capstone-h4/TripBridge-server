@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "route")
+@Table(name = "chatRoute")
 public class ChatRoute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
