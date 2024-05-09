@@ -7,6 +7,7 @@ import com.example.tripbridgeserver.repository.ChatRouteRepository;
 import com.example.tripbridgeserver.repository.RouteRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.service.RouteService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-
+@Slf4j
 @RestController
 public class ChatBotController {
 
@@ -83,11 +84,13 @@ public class ChatBotController {
             // 프롬프트 생성
             promptBuilder.append(chatRoute.getPlace() + ",");
         }
-        promptBuilder.append("을(를) 순서대로 방문할 때의 이동 방법과 예상 비용을 500자 이내로 알려줘.\n");
+        promptBuilder.append("을(를) 순서대로 방문할 때의 이동 수단과 예상 비용을 500자 이내로 알려줘.\n");
+        log.info(promptBuilder.toString());
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+
     }
 
     @GetMapping("/chatBot/question4")
@@ -106,7 +109,7 @@ public class ChatBotController {
         promptBuilder.append("을(를) 순서대로 방문할 꺼야");
         promptBuilder.append(schedule);
         promptBuilder.append(" 으로 일정을 표로 생성해줘\\n");
-
+        log.info(promptBuilder.toString());
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
