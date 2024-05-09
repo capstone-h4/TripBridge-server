@@ -10,7 +10,8 @@ import com.example.tripbridgeserver.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,6 +40,32 @@ public class ChatBotController {
         this.userRepository = userRepository;
         this.chatRouteRepository = chatRouteRepository;
         this.restTemplate = restTemplate;
+    }
+
+    @PostMapping("/chatBot/question1")
+    public String generateNearPlace(@RequestBody String choicePlace){
+
+        StringBuilder promptBuilder = new StringBuilder();
+        promptBuilder.append(choicePlace);
+        promptBuilder.append("의 주변 관광지를 추천해줘.\n");
+
+        ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
+        ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
+        return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+
+    }
+
+    @PostMapping("/chatBot/question2")
+    public String generateDetail(@RequestBody String choicePlace){
+
+        StringBuilder promptBuilder = new StringBuilder();
+        promptBuilder.append(choicePlace);
+        promptBuilder.append("의 이용방법과 비용 등 상세정보를 알려줘.\n");
+
+        ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
+        ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
+        return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+
     }
 
     @GetMapping("/chatBot/question3")
