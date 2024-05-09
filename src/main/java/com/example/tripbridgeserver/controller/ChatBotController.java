@@ -10,8 +10,10 @@ import com.example.tripbridgeserver.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -89,7 +91,7 @@ public class ChatBotController {
     }
 
     @GetMapping("/chatBot/question4")
-    public String generateSchedule() {
+    public String generateSchedule(@RequestBody String schedule) {
         List<ChatRoute> chatRoutes = chatRouteRepository.findAll();
 
         if (chatRoutes.isEmpty()) {
@@ -101,7 +103,10 @@ public class ChatBotController {
             // 프롬프트 생성
             promptBuilder.append(chatRoute.getPlace() + ",");
         }
-        promptBuilder.append("을(를) 순서대로 방문할 꺼야 일정은 1박2일일때 일정을 표로 생성해줘\n");
+        promptBuilder.append("을(를) 순서대로 방문할 꺼야");
+        promptBuilder.append(schedule);
+        promptBuilder.append(" 으로 일정을 표로 생성해줘\\n");
+
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
