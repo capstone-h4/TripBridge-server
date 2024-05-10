@@ -3,6 +3,7 @@ package com.example.tripbridgeserver.controller;
 import com.example.tripbridgeserver.dto.ChatGPTRequest;
 import com.example.tripbridgeserver.dto.ChatGPTResponse;
 import com.example.tripbridgeserver.entity.ChatRoute;
+import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.ChatRouteRepository;
 import com.example.tripbridgeserver.repository.RouteRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
@@ -10,6 +11,8 @@ import com.example.tripbridgeserver.service.RouteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,7 +76,11 @@ public class ChatBotController {
 
     @GetMapping("/chatBot/question3")
     public String generatePromptForAll() {
-        List<ChatRoute> chatRoutes = chatRouteRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+
+        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntityOrderByRouteOrder(currentUser);
 
         if (chatRoutes.isEmpty()) {
             return "저장된 장소 정보가 없습니다.";
@@ -95,7 +102,11 @@ public class ChatBotController {
 
     @GetMapping("/chatBot/question4")
     public String generateSchedule(@RequestBody String schedule) {
-        List<ChatRoute> chatRoutes = chatRouteRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserEntity currentUser = userRepository.findByEmail(userEmail);
+
+        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntityOrderByRouteOrder(currentUser);
 
         if (chatRoutes.isEmpty()) {
             return "저장된 장소 정보가 없습니다.";
