@@ -100,7 +100,7 @@ public class ChatBotController {
 
     }
 
-    @GetMapping("/chatBot/question4")
+    @PostMapping("/chatBot/question4")
     public String generateSchedule(@RequestBody String schedule) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
