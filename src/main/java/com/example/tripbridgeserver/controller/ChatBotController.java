@@ -14,10 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,7 +51,7 @@ public class ChatBotController {
 
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append(choicePlace);
-        promptBuilder.append("의 주변 관광지를 추천해줘.\n");
+        promptBuilder.append("의 주변 관광지 5곳을 추천해줘. 보기 편하도록 한 줄 씩 나오도록 고정해줘.\n");
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
@@ -66,7 +64,7 @@ public class ChatBotController {
 
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append(choicePlace);
-        promptBuilder.append("의 이용방법과 비용 등 상세정보를 알려줘.\n");
+        promptBuilder.append("의 이용방법과 비용 등 상세정보를 알려줘. 보기 편하게 단락 잘 나눠서 보여줘.\n");
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
@@ -119,7 +117,7 @@ public class ChatBotController {
         }
         promptBuilder.append("을(를) 순서대로 방문할 꺼야");
         promptBuilder.append(schedule);
-        promptBuilder.append(" 으로 일정을 표로 생성해줘\\n");
+        promptBuilder.append(" 으로 일정을 날짜별로 추천해줘\\n");
         log.info(promptBuilder.toString());
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
