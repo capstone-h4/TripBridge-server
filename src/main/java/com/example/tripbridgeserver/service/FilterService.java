@@ -40,4 +40,32 @@ public class FilterService {
                 "&_type=json";
 
     }
+
+    public String getDeatiledPlaceInfo(String contentTypeId, String contentId) throws FilterServiceException{
+        try {
+            String urlstr = infoVariableUrl(contentTypeId, contentId);
+            URL url = new URL(urlstr);
+
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"))) {
+                return br.lines().collect(Collectors.joining("\n"));
+            }
+        } catch (Exception e) {
+            throw new FilterServiceException("장소 정보를 가져오는 중 오류가 발생하였습니다.", e);
+        }
+    }
+
+    private String infoVariableUrl(String contentTypeId, String contentId) {
+        return "http://apis.data.go.kr/B551011/KorService1/detailCommon1?" +
+                "ServiceKey=YGF0y1fe6pkkysTM1WzMH9htWqLp7iiY2fuy%2BJiEFoI%2BKH%2BON1EnErgGxvE6T2Z5awLIIAlQcuD9hjylPI6GYg%3D%3D" +
+                "&contentTypeId=" + contentTypeId +
+                "&contentId=" + contentId +
+                "&MobileOS=ETC" +
+                "&MobileApp=AppTest" +
+                "&overviewYN=Y";
+
+    }
+
 }
