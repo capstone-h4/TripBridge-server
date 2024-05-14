@@ -119,7 +119,7 @@ public class ChatBotController {
         }
         promptBuilder.append("을(를) 순서대로 방문할 꺼야");
         promptBuilder.append(schedule);
-        promptBuilder.append(" 으로 일정을 표로 생성해줘\\n");
+        promptBuilder.append(" 으로 일정을 날짜별로 추천해줘\\n");
         log.info(promptBuilder.toString());
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
