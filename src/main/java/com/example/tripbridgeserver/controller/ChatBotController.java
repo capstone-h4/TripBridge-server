@@ -51,7 +51,7 @@ public class ChatBotController {
 
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append(choicePlace);
-        promptBuilder.append("의 주변 관광지 5곳을 추천해줘. 보기 편하도록 한 줄 씩 나오도록 고정해줘.\n");
+        promptBuilder.append("의 주소를 기반으로 5km 이내의 주변 관광지 5곳을 추천해줘. 보기 편하도록 한 줄 씩 나오도록 고정해줘.\n");
 
         ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
@@ -115,7 +115,7 @@ public class ChatBotController {
             // 프롬프트 생성
             promptBuilder.append(chatRoute.getPlace() + ",");
         }
-        promptBuilder.append("을(를) 순서대로 방문할 꺼야");
+        promptBuilder.append("을(를) 순서대로 방문할거야");
         promptBuilder.append(schedule);
         promptBuilder.append(" 으로 일정을 날짜별로 추천해줘\\n");
         log.info(promptBuilder.toString());
