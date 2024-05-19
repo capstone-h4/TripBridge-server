@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
+// 공공 데이터를 이용한 필터링된 장소 출력
 @Service
 public class FilterService {
     public String getFilteredPlaces(String areaCode, String contentTypeId, String cat1, String cat2, String cat3) throws FilterServiceException {
@@ -26,6 +27,7 @@ public class FilterService {
         }
     }
 
+    // getFilteredPlaces에서 이용
     private String variableUrl(String areaCode, String contentTypeId, String cat1, String cat2, String cat3) {
         return "https://apis.data.go.kr/B551011/KorService1/areaBasedList1?" +
                 "numOfRows=1000" +
@@ -41,7 +43,7 @@ public class FilterService {
 
     }
 
-    public String getDeatiledPlaceInfo(String contentTypeId, String contentId) throws FilterServiceException{
+    public String getDetailedPlaceInfo(String contentTypeId, String contentId) throws FilterServiceException{
         try {
             String urlstr = infoVariableUrl(contentTypeId, contentId);
             URL url = new URL(urlstr);
@@ -57,6 +59,7 @@ public class FilterService {
         }
     }
 
+    // getDetailedPlaceInfo에서 이용
     private String infoVariableUrl(String contentTypeId, String contentId) {
         return "http://apis.data.go.kr/B551011/KorService1/detailCommon1?" +
                 "ServiceKey=YGF0y1fe6pkkysTM1WzMH9htWqLp7iiY2fuy%2BJiEFoI%2BKH%2BON1EnErgGxvE6T2Z5awLIIAlQcuD9hjylPI6GYg%3D%3D" +

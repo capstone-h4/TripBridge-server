@@ -25,7 +25,6 @@ public class DtoMapper {
     }
 
     // 객체 매핑
-
     public <R, T> List<R> transform(List<T> list, Class<R> returnType) {
         if( list == null) return null;
 

@@ -18,8 +18,7 @@ public class ScrapController {
         this.scrapService = scrapService;
     }
 
-    // 스크랩 생성
-
+    // 장소 스크랩 생성
     @PostMapping("/storage")
     public ResponseEntity<ResponseDTO<Scrap>> create(@RequestBody ScrapDTO dto) {
         ResponseDTO<Scrap> responseDTO = scrapService.create(dto);
@@ -31,7 +30,7 @@ public class ScrapController {
         }
     }
 
-    // 스크랩 삭제
+    // 장소 스크랩 삭제
     @DeleteMapping("/storage/{id}")
     public ResponseEntity<ResponseDTO<Void>> delete(@PathVariable Long id) {
         ResponseEntity<ResponseDTO<Void>> responseEntity = scrapService.delete(id);

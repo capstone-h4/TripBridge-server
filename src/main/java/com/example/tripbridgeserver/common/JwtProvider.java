@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @Component
 
-// access 토큰 : 1시간, refresh 토큰 : 하루
+// accessToken : 1h, refreshToken : 24h
 public class JwtProvider {
 
     @Value("${spring.security.jwt.access.expired}")
@@ -30,7 +30,7 @@ public class JwtProvider {
     private String refreshSecretKey;
 
 
-    // access 토큰 생성
+    // accessToken 생성
     public String createAccessToken(String userId, List<String> roles) {
 
         LocalDateTime expired = LocalDateTime.now()
@@ -45,7 +45,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    // refresh 토큰 생성 (access 토큰 만료 시 사용)
+    // refreshToken 생성 (accessToken 만료 시 사용)
     public String createRefreshToken(String userId, List<String> roles) {
 
         LocalDateTime expired = LocalDateTime.now()
@@ -60,25 +60,23 @@ public class JwtProvider {
                 .compact();
     }
 
-    // access 토큰 유효성 체크
+    // accessToken 유효성 체크
     public boolean validateAccessToken() {
         return validateToken(resolveAccessToken(), accessSecretKey);
     }
 
 
-    // access 토큰 유효성 체크
+    // accessToken 유효성 체크
     public boolean validateAccessToken(String jwtToken) {
         return validateToken(jwtToken, accessSecretKey);
     }
 
-    // 토큰 유효성 체크
+    // token 유효성 체크
     public boolean validateRefreshToken(String jwtToken) {
         return validateToken(jwtToken, refreshSecretKey);
     }
 
-
-
-    // 토큰 유효한지 체크 (만료일자로)
+    // token 유효성 체크 (만료일자)
     private boolean validateToken(String jwtToken, String scret) {
         try {
             if (StringUtils.isEmpty(jwtToken)) return false;
@@ -92,7 +90,7 @@ public class JwtProvider {
         }
     }
 
-    // 헤더에서 access 토큰 조회
+    // 헤더에서 accessToken 조회
     public String resolveAccessToken() {
         HttpServletRequest request = HttpRequestUtil.getRequest();
         if (request.getHeader("authorization") != null) {
@@ -106,7 +104,7 @@ public class JwtProvider {
         return null;
     }
 
-    // 헤더에서 refresh 토큰 조회
+    // 헤더에서 refreshToken 토큰 조회
     public String resolveRefreshToken() {
         HttpServletRequest request = HttpRequestUtil.getRequest();
         if (request.getHeader("refreshToken") != null)

@@ -21,7 +21,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 
-    // requestMatchers로 정의 해놓은 엔드포인트를 제외하고는 다른 모든 요청에는 인증 필요
+    // requestMatchers로 정의한 엔드포인트를 제외하고는 다른 모든 요청에는 인증 필요
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
@@ -33,20 +33,10 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequests) -> {
                     authorizeRequests.requestMatchers(
-                            "/",
-                            "/user/signup",
-                            "/user/login",
-                            "/mate/**",
-                            "/trip/**",
-                            "/scrap/**",
-                            "/place/**",
-                            "/filter/**",
-                            "/scrap/**",
-                            "/route/**",
-                            "/place/**",
-                            "/storage/**",
-                            "/storage",
-                            "/chatBot/**"
+                            "/", "/user/signup", "/user/login",
+                            "/mate/**", "/trip/**", "/scrap/**", "/place/**",
+                            "/filter/**", "/scrap/**", "/route/**",
+                            "/place/**", "/storage/**", "/storage", "/chatBot/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()
