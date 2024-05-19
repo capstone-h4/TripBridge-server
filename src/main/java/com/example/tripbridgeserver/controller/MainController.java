@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     @GetMapping("/")
     public String home() {
-        return "Hello World!";
+        return "Trip Bridge";
     }
 
 }

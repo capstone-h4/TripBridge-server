@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 public class ChatBotController {
 
-    @Value("${openai.model}")
+    @Value("${openai.model}") // chatgpt 사용 모델
     private String model;
 
     @Value("${openai.api.url}")
@@ -46,6 +46,7 @@ public class ChatBotController {
         this.restTemplate = restTemplate;
     }
 
+    // 주변 관광지 추천
     @PostMapping("/chatBot/question1")
     public String generateNearPlace(@RequestBody String choicePlace){
 
@@ -59,6 +60,7 @@ public class ChatBotController {
 
     }
 
+    // 관광지 상세정보
     @PostMapping("/chatBot/question2")
     public String generateDetail(@RequestBody String choicePlace){
 

@@ -28,14 +28,6 @@ public class ScrapService {
         this.userRepository = userRepository;
     }
 
-//    public Scrap create(ScrapDTO dto) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userEmail = authentication.getName();
-//        UserEntity currentUser = userRepository.findByEmail(userEmail);
-//        Scrap scrap = dto.toEntity(currentUser);
-//        return scrapRepository.save(scrap);
-//    }
-
     public ResponseDTO<Scrap> create(ScrapDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();

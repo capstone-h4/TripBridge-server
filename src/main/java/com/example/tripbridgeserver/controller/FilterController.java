@@ -16,7 +16,7 @@ public class FilterController {
         this.filterService = filterService;
     }
 
-    // 공공데이터 api 이용한 장소 필터링
+    // 공공데이터 이용 장소 필터링
     @GetMapping("/place/list")
     public ResponseEntity<String> showPlace(
             @RequestParam("areaCode") String areaCode,
@@ -40,7 +40,7 @@ public class FilterController {
             @RequestParam("contentId") String contentId
     ){
         try {
-            String result = filterService.getDeatiledPlaceInfo(contentTypeId, contentId);
+            String result = filterService.getDetailedPlaceInfo(contentTypeId, contentId);
             return ResponseEntity.ok(result);
         } catch (FilterServiceException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터를 가져오는 중 오류가 발생하였습니다.");
