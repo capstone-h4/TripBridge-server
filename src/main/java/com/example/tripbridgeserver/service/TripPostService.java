@@ -10,28 +10,17 @@ import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.TripPostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.print.attribute.standard.Media;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -51,6 +40,7 @@ public class TripPostService {
         this.userRepository = userRepository;
     }
 
+    //Trip 게시글 Entity 로 변환
     public TripPost toEntity(TripPostDTO dto, UserEntity currentUser) {
         TripPost tripPost = new TripPost();
         tripPost.setTitle(dto.getTitle());
@@ -72,15 +62,13 @@ public class TripPostService {
         return tripPost;
     }
 
+    //S3 버킷에 업로들할 이미지의 이름 랜덤 생성
     private String generateRandomImageName(String originName) {
         String random = UUID.randomUUID().toString();
         originName = originName.replace(" ", "%20");
         return random + originName;
     }
-
-
-
-
+    //S3 버킷에 이미지 업로드
     private String uploadImageToS3(MultipartFile image) {
         String originName = image.getOriginalFilename();
         String ext = originName.substring(originName.lastIndexOf("."));
@@ -98,20 +86,7 @@ public class TripPostService {
         return amazonS3Client.getUrl(bucketName, changedName).toString();
     }
 
-    public void updateImages(TripPost tripPost, List<MultipartFile> images) {
-        List<TripImage> tripImages = new ArrayList<>();
-        for (MultipartFile imageFile : images) {
-            TripImage tripImage = new TripImage();
-            String imageUrl = uploadImageToS3(imageFile);
-            tripImage.setImageUrl(imageUrl);
-            tripImage.setTripPost(tripPost);
-            tripImages.add(tripImage);
-        }
-        tripPost.setImages(tripImages);
-    }
-
-
-
+    //S3 버킷에서 이미지 삭제
     public void deleteImageFromS3(List<TripImage> tripImages) {
         for (TripImage tripImage : tripImages) {
             String imageUrl = tripImage.getImageUrl();
@@ -121,7 +96,7 @@ public class TripPostService {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, objectKey));
         }
     }
-
+    //S3 버킷에서 이미지 삭제할때 객체의 키 추출
     private String getObjectKeyFromImageUrl(String imageUrl) {
         String bucketEndMarker = ".com/";
         int bucketEndIndex = imageUrl.indexOf(bucketEndMarker) + bucketEndMarker.length();

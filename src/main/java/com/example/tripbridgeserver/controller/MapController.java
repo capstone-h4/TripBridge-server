@@ -24,7 +24,7 @@ public class MapController {
         this.scrapRepository = scrapRepository;
         this.userRepository = userRepository;
     }
-
+    //동선 추천 페이지에서 유저의 스크랩목록 조회
     @GetMapping("/scrap")
     public List<Scrap> show(){
 

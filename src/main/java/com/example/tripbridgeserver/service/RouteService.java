@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+//route 동선의 방문 우선순위를 갱신하기 위한 Service 단
 @Service
 public class RouteService {
     private final RouteRepository routeRepository;

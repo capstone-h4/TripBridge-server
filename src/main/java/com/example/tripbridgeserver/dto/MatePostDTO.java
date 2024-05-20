@@ -2,14 +2,10 @@ package com.example.tripbridgeserver.dto;
 
 import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.UserEntity;
-import com.example.tripbridgeserver.repository.UserRepository;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-
 import java.sql.Timestamp;
 
 @Getter
