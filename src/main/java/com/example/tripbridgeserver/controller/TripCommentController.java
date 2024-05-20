@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+//Trip 게시판 댓글 관련 Controller
 @RestController
 public class TripCommentController {
 
@@ -25,15 +25,8 @@ public class TripCommentController {
         this.userRepository = userRepository;
         this.tripCommentRepository = tripCommentRepository;
     }
-    @GetMapping("/trip/comment")
-    public List<TripComment> index(){
-        return tripCommentRepository.findAll();
-    }
-    @GetMapping("/trip/comment/{id}")
-    public TripComment show (@PathVariable Long id){
-        return tripCommentRepository.findById(id).orElse(null);
-    }
 
+    //Trip 게시판 id번 글에 대한 댓글 조회
     @GetMapping("/trip/{id}/comment")
     public List<TripComment> comment (@PathVariable Long id){
         TripPost tripPost = tripPostRepository.findById(id).orElse(null);
@@ -42,10 +35,8 @@ public class TripCommentController {
         else {
             return null; // 또는 예외를 처리하거나 적절한 방법으로 처리
         }
-
     }
-
-
+    //Trip 게시판 댓글 생성
     @PostMapping("/trip/comment")
     public ResponseEntity<TripComment> createComment(@RequestBody TripCommentDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +54,7 @@ public class TripCommentController {
         }
         else {
             Long maxCommentGroup = tripCommentRepository.findMaxCommentGroupByMatePostId(dto.getTripPost_id()); // 해당 게시물에서 가장 높은 comment_group 값을 가져옴
-            tripComment.setComment_group(maxCommentGroup != null ? maxCommentGroup + 1 : 0L); // 새로운 댓글의 comment_group을 설정
+            tripComment.setComment_group(maxCommentGroup != null ? maxCommentGroup + 1 : 0L); // 새로운 댓글의 comment_group 을 설정
         }
 
         // 대댓글의 순서 설정
@@ -73,12 +64,11 @@ public class TripCommentController {
         } else {
             tripComment.setComment_order(0L); // 대댓글이 부모 댓글의 첫 번째 대댓글일 경우
         }
-
         TripComment savedComment = tripCommentRepository.save(tripComment);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
     }
 
-
+    //Trip 게시판 단일 댓글 수정
     @PatchMapping("/trip/comment/{id}")
     public ResponseEntity<TripComment> update(@PathVariable Long id, @RequestBody TripCommentDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -96,10 +86,8 @@ public class TripCommentController {
         target.setUserEntity(tripComment.getUserEntity());
         TripComment updated = tripCommentRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
-
     }
-
-
+    //Trip 게시판 단일 댓글 삭제
     @DeleteMapping("/trip/comment/{id}")
     public ResponseEntity<TripComment> delete(@PathVariable Long id){
         TripComment target = tripCommentRepository.findById(id).orElse(null);
@@ -108,6 +96,5 @@ public class TripCommentController {
         }
         tripCommentRepository.delete(target);
         return ResponseEntity.status(HttpStatus.OK).body(null);
-
     }
 }

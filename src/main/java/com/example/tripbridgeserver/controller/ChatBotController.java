@@ -73,7 +73,7 @@ public class ChatBotController {
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
 
     }
-
+    //동선간의 이동수단, 예상비용 정보
     @GetMapping("/chatBot/question3")
     public String generatePromptForAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,7 +88,7 @@ public class ChatBotController {
 
         StringBuilder promptBuilder = new StringBuilder();
         for (ChatRoute chatRoute : chatRoutes) {
-            // 프롬프트 생성
+            // 프롬프트(질문) 생성
             promptBuilder.append(chatRoute.getPlace() + ",");
         }
         promptBuilder.append("을(를) 순서대로 방문할 때의 이동 수단과 예상 비용을 500자 이내로 알려줘.\n");
@@ -99,7 +99,7 @@ public class ChatBotController {
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
 
     }
-
+    //여행 동선에 따른 일정 추천 정보
     @PostMapping("/chatBot/question4")
     public String generateSchedule(@RequestBody String schedule) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -114,7 +114,7 @@ public class ChatBotController {
 
         StringBuilder promptBuilder = new StringBuilder();
         for (ChatRoute chatRoute : chatRoutes) {
-            // 프롬프트 생성
+            // 프롬프트(질문) 생성
             promptBuilder.append(chatRoute.getPlace() + ",");
         }
         promptBuilder.append("을(를) 순서대로 방문할거야");

@@ -7,16 +7,16 @@ import com.example.tripbridgeserver.entity.UserEntity;
 import com.example.tripbridgeserver.repository.MateCommentRepository;
 import com.example.tripbridgeserver.repository.MatePostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-@Slf4j
+
+
+//Mate 게시판 댓글 관련 Controller
 @RestController
 public class MateCommentController {
 
@@ -31,14 +31,7 @@ public class MateCommentController {
         this.mateCommentRepository = mateCommentRepository;
     }
 
-    @GetMapping("/mate/comment")
-        public List<MateComment> index(){
-            return mateCommentRepository.findAll();
-    }
-    @GetMapping("/mate/comment/{id}")
-    public MateComment show (@PathVariable Long id){
-        return mateCommentRepository.findById(id).orElse(null);
-    }
+    //Mate 게시판 id번 글에 대한 댓글 조회
     @GetMapping("/mate/{id}/comment")
     public List<MateComment> comment (@PathVariable Long id){
        MatePost matePost = matePostRepository.findById(id).orElse(null);
@@ -47,10 +40,9 @@ public class MateCommentController {
        else {
            return null; // 또는 예외를 처리하거나 적절한 방법으로 처리
        }
-
     }
 
-
+    //Mate 게시판 댓글 생성
     @PostMapping("/mate/comment")
     public ResponseEntity<MateComment> createComment(@RequestBody MateCommentDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -68,7 +60,7 @@ public class MateCommentController {
         }
         else {
             Long maxCommentGroup = mateCommentRepository.findMaxCommentGroupByMatePostId(dto.getMatePost_id()); // 해당 게시물에서 가장 높은 comment_group 값을 가져옴
-            mateComment.setComment_group(maxCommentGroup != null ? maxCommentGroup + 1 : 0L); // 새로운 댓글의 comment_group을 설정
+            mateComment.setComment_group(maxCommentGroup != null ? maxCommentGroup + 1 : 0L); // 새로운 댓글의 comment_group 을 설정
         }
 
         // 대댓글의 순서 설정
@@ -78,12 +70,11 @@ public class MateCommentController {
         } else {
             mateComment.setComment_order(0L); // 대댓글이 부모 댓글의 첫 번째 대댓글일 경우
         }
-
         MateComment savedComment = mateCommentRepository.save(mateComment);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
     }
 
-
+    //Mate 게시판 단일 댓글 수정
     @PatchMapping("/mate/comment/{id}")
     public ResponseEntity<MateComment> update(@PathVariable Long id, @RequestBody MateCommentDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -101,10 +92,8 @@ public class MateCommentController {
         target.setUserEntity(mateComment.getUserEntity());
         MateComment updated = mateCommentRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
-
     }
-
-
+    //Mate 게시판 단일 댓글 수정
     @DeleteMapping("/mate/comment/{id}")
     public ResponseEntity<MateComment> delete(@PathVariable Long id){
         MateComment target = mateCommentRepository.findById(id).orElse(null);
@@ -113,6 +102,5 @@ public class MateCommentController {
         }
         mateCommentRepository.delete(target);
         return ResponseEntity.status(HttpStatus.OK).body(null);
-
     }
 }
