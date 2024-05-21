@@ -13,7 +13,7 @@
   Server : 박현지, 윤현수 <br>
 - Repo Link <br>
   Web :   <br>
-  Server :  <br>
+  Server : https://github.com/capstone-h4/TripBridge-server<br>
 - 배포 페이지 : 
 <br><br>
 
