@@ -12,8 +12,8 @@
   Web :  백주희, 황서현 <br>
   Server : 박현지, 윤현수 <br>
 - Repo Link <br>
-  Web :   <br>
-  Server : https://github.com/capstone-h4/TripBridge-server<br>
+  Web : https://github.com/capstone-h4/TripBridge-web <br>
+  Server : https://github.com/capstone-h4/TripBridge-server <br>
 - 배포 페이지 : 
 <br><br>
 
