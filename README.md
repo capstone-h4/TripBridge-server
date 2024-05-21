@@ -22,8 +22,8 @@
 - 윤현수 : DB 설계 및 구축, Rest API 개발(게시판, Maps API, OpenAI) AWS S3
 
 - ## Tech Stack
-적용 기술: React, SpringBoot, 공공 데이터, Kakaomap Maps API, OpenAI(ChatGPT) API, AWS, MySQL
-개발 언어: JAVA, JavaScript
+적용 기술: React, SpringBoot, 공공 데이터, Kakaomap Maps API, OpenAI(ChatGPT) API, AWS, MySQL <br>
+개발 언어: JAVA, JavaScript <br>
 개발 도구: Visual Studio Code, IntelliJ
 
 
