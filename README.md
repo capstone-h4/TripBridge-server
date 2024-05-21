@@ -20,3 +20,11 @@
 #### 서버 역할분담
 - 박현지 : DB 설계 및 구축, Rest API 개발(회원가입/로그인, 공공 데이터, OpenAI), AWS EC2 서버 구축, 배포
 - 윤현수 : DB 설계 및 구축, Rest API 개발(게시판, Maps API, OpenAI) AWS S3
+
+- ## Tech Stack
+적용 기술: React, SpringBoot, 공공 데이터, Kakaomap Maps API, OpenAI(ChatGPT) API, AWS, MySQL
+개발 언어: JAVA, JavaScript
+개발 도구: Visual Studio Code, IntelliJ
+
+
+<br><br>
