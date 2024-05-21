@@ -17,7 +17,7 @@
 - 배포 페이지 : 
 <br><br>
 
-#### 서버 역할분담
+#### 백엔드 역할분담
 - 박현지 : DB 설계 및 구축, Rest API 개발(회원가입/로그인, 공공 데이터, OpenAI), AWS EC2 서버 구축, 배포
 - 윤현수 : DB 설계 및 구축, Rest API 개발(게시판, Maps API, OpenAI) AWS S3
 
