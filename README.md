@@ -14,7 +14,7 @@
 - Repo Link <br>
   Web : https://github.com/capstone-h4/TripBridge-web <br>
   Server : https://github.com/capstone-h4/TripBridge-server <br>
-- 배포 페이지 : 
+- 배포 페이지 : http://tripbridge.co.kr/ <br>
 <br><br>
 
 #### 백엔드 역할분담
