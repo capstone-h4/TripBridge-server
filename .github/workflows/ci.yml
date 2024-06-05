@@ -1,11 +1,11 @@
 ## 1 워크플로의 이름 지정
-#name: CI
-#
+name: CI
+
 ## 2 워크플로가 시작될 조건 지정 (main에 push 시)
-#on:
-#  push:
-#    branches: [ main ]
-#
-#jobs:
-#  build
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build
 
