@@ -33,7 +33,7 @@ public class MyRouteService {
 
     // 동선 저장
     @Transactional
-    public void createMyRoutes(String userEmail) {
+    public Long createMyRoutes(String userEmail) {
 
         // 사용자 확인
         UserEntity user = userRepository.findByEmail(userEmail);
@@ -62,16 +62,18 @@ public class MyRouteService {
             myPlaceRepository.save(myPlace);
         }
 
+        return myRoute.getId();
+
     }
 
 
     // 동선 저장 관련 상세보기
     public MyRouteResponseDTO getMyRouteWithPlaces(Long routeId) {
-        // MyRoute 조회
+
         MyRoute myRoute = myRouteRepository.findById(routeId)
                 .orElseThrow(() -> new RuntimeException("MyRoute not found"));
 
-        // MyRoute에 연결된 MyPlace 리스트 조회 및 DTO로 변환
+        // MyPlace 리스트 조회 및 DTO로 변환
         List<MyPlaceResponseDTO> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
                 .stream()
                 .map(place -> new MyPlaceResponseDTO(

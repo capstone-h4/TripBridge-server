@@ -24,9 +24,9 @@ public class MyRouteController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String userEmail = authentication.getName();
 
-            myRouteService.createMyRoutes(userEmail);
+            Long routeId = myRouteService.createMyRoutes(userEmail);
 
-            return ResponseEntity.ok("현재 동선이 저장 되었습니다.");
+            return ResponseEntity.ok("현재 동선이 저장 되었습니다. (routeId: " + routeId + ")");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("현재 동선 저장에 실패하였습니다. " + e.getMessage());
         }
@@ -40,7 +40,7 @@ public class MyRouteController {
             MyRouteResponseDTO myRouteResponse = myRouteService.getMyRouteWithPlaces(routeId);
             return ResponseEntity.ok(myRouteResponse);
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(null); // MyRoute를 찾지 못한 경우
+            return ResponseEntity.status(404).body(null);
         }
     }
 
