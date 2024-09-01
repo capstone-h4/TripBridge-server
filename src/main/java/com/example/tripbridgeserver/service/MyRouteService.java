@@ -1,5 +1,7 @@
 package com.example.tripbridgeserver.service;
 
+import com.example.tripbridgeserver.dto.MyPlaceResponseDTO;
+import com.example.tripbridgeserver.dto.MyRouteResponseDTO;
 import com.example.tripbridgeserver.entity.ChatRoute;
 import com.example.tripbridgeserver.entity.MyPlace;
 import com.example.tripbridgeserver.entity.MyRoute;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MyRouteService {
@@ -28,6 +31,7 @@ public class MyRouteService {
     @Autowired
     private MyPlaceRepository myPlaceRepository;
 
+    // 동선 저장
     @Transactional
     public void createMyRoutes(String userEmail) {
 
@@ -58,7 +62,33 @@ public class MyRouteService {
             myPlaceRepository.save(myPlace);
         }
 
+    }
 
+
+    // 동선 저장 관련 상세보기
+    public MyRouteResponseDTO getMyRouteWithPlaces(Long routeId) {
+        // MyRoute 조회
+        MyRoute myRoute = myRouteRepository.findById(routeId)
+                .orElseThrow(() -> new RuntimeException("MyRoute not found"));
+
+        // MyRoute에 연결된 MyPlace 리스트 조회 및 DTO로 변환
+        List<MyPlaceResponseDTO> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
+                .stream()
+                .map(place -> new MyPlaceResponseDTO(
+                        place.getId(),
+                        place.getPlace(),
+                        place.getAddress()
+                ))
+                .collect(Collectors.toList());
+
+        // DTO로 반환
+        return new MyRouteResponseDTO(
+                myRoute.getId(),
+                myRoute.getName(),
+                myRoute.getRate(),
+                myRoute.getComment(),
+                myPlaces
+        );
     }
 
 }
