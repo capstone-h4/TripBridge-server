@@ -16,4 +16,5 @@ public interface ChatRouteRepository extends JpaRepository<ChatRoute, Long> {
     @Query("SELECT cr FROM ChatRoute cr WHERE cr.userEntity = :userEntity ORDER BY cr.route_order")
     List<ChatRoute> findByUserEntityOrderByRouteOrder(@Param("userEntity") UserEntity userEntity);
 
+    List<ChatRoute> findByUserEntityId(Long id);
 }
