@@ -36,7 +36,8 @@ public class SecurityConfig {
                             "/", "/user/signup", "/user/login",
                             "/mate/**", "/trip/**", "/scrap/**", "/place/**",
                             "/filter/**", "/scrap/**", "/route/**",
-                            "/place/**", "/storage/**", "/storage", "/chatBot/**"
+                            "/place/**", "/storage/**", "/storage", "/chatBot/**",
+                            "/myroute/**"
                     ).permitAll();
 
                     authorizeRequests.anyRequest()
