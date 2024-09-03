@@ -78,6 +78,7 @@ public class MyRouteService {
             MyPlace myPlace = new MyPlace();
             myPlace.setPlace(chatRoute.getPlace());
             myPlace.setAddress(chatRoute.getAddress());
+            myPlace.setRoute_order(chatRoute.getRoute_order());
             myPlace.setMyRoute(myRoute);
             myPlaceRepository.save(myPlace);
         }
@@ -99,7 +100,8 @@ public class MyRouteService {
                 .map(place -> new MyPlaceResponseDTO(
                         place.getId(),
                         place.getPlace(),
-                        place.getAddress()
+                        place.getAddress(),
+                        place.getRoute_order()
                 ))
                 .collect(Collectors.toList());
 
@@ -155,7 +157,8 @@ public class MyRouteService {
                 .map(place -> new MyPlaceResponseDTO(
                         place.getId(),
                         place.getPlace(),
-                        place.getAddress()
+                        place.getAddress(),
+                        place.getRoute_order()
                 ))
                 .collect(Collectors.toList());
 
