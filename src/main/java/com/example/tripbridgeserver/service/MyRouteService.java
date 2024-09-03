@@ -42,12 +42,31 @@ public class MyRouteService {
             throw new RuntimeException("사용자를 찾을 수 없습니다.");
         }
 
+        // 기존 MyRoute 목록에서 이름이 "동선"으로 시작하는 것들 중 가장 큰 숫자 찾기
+        List<MyRoute> existingRoutes = myRouteRepository.findByUserEntityAndNameStartingWith(user, "동선");
+        int maxSuffix = 0;
+        for (MyRoute route : existingRoutes) {
+            String name = route.getName();
+            if (name.length() > 2) {
+                try {
+                    int suffix = Integer.parseInt(name.substring(2));
+                    if (suffix > maxSuffix) {
+                        maxSuffix = suffix;
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+
+        // 새 동선 이름 설정
+        String newRouteName = "동선" + (maxSuffix + 1);
+
         // ChatRoute에서 userId로 place와 address 목록 가져오기
         List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntityId(user.getId());
 
         // MyRoute 생성
         MyRoute myRoute = new MyRoute();
-        myRoute.setName("동선");
+        myRoute.setName(newRouteName);
         myRoute.setRate(0);
         myRoute.setComment(null);
         myRoute.setUserEntity(user);
