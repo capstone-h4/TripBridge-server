@@ -49,7 +49,7 @@ public class MyRouteService {
         MyRoute myRoute = new MyRoute();
         myRoute.setName("동선");
         myRoute.setRate(0);
-        myRoute.setComment("코멘트");
+        myRoute.setComment(null);
         myRoute.setUserEntity(user);
         myRouteRepository.save(myRoute);
 
