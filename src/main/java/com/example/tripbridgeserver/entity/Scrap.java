@@ -25,10 +25,10 @@ public class Scrap {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "latitude")
+    @Column(name = "latitude", precision = 20, scale = 10)
     private BigDecimal latitude;
 
-    @Column(name = "longitude")
+    @Column(name = "longitude", precision = 20, scale = 10)
     private BigDecimal longitude;
 
     @ManyToOne
