@@ -10,4 +10,9 @@ public class MainController {
         return "Trip Bridge";
     }
 
+    @GetMapping("/healthcheck")
+    public String healthcheck() {
+        return "OK";
+    }
+
 }
