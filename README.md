@@ -12,7 +12,7 @@
 
 ### 프로젝트 진행 기간
 2024.02.12 ~ 2024.05.31 (기획 및 디자인, 개발) <br>
-2024.09.01 ~ 2024.09.20 (추가 개발 및 보완)
+2024.09.01 ~ 2024.09.20 (추가 기능 개발 및 리팩토링)
 
 <br>
 
@@ -28,6 +28,7 @@
 <br><br>
 
 ### 백엔드 기술 스택
+[![stackticon](https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1728227673059?alt=media&token=ddf706fc-d675-4ee5-9ded-347d6ae177e3)](https://github.com/msdio/stackticon)
 - 언어 및 프레임워크<br>
   Java 17, Spring Boot 3.3.6, Spring Data JPA
 
@@ -49,7 +50,7 @@
 
 
 ### ERD
-(사진추가)
+<img width="1119" alt="trip_erd" src="https://github.com/user-attachments/assets/ee3562f4-b884-451a-83d4-824202992907">
 <br><br>
 
 
