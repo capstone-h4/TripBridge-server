@@ -30,7 +30,7 @@
 ### 백엔드 기술 스택
 [![stackticon](https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1728227673059?alt=media&token=ddf706fc-d675-4ee5-9ded-347d6ae177e3)](https://github.com/msdio/stackticon)
 - 언어 및 프레임워크<br>
-  Java 17, Spring Boot 3.3.6, Spring Data JPA
+  Java 17, Spring Boot 3.2.4, Spring Data JPA, Spring Security
 
 
 - 데이터베이스<br>
@@ -54,7 +54,7 @@
 <br><br>
 
 
-### 주요 기술 정리
+### 적용 기술 정리
 
 #### 공공 데이터 이용
 
@@ -62,9 +62,7 @@
 
 #### OpenAI 서비스
 
-<br><br>
 
-### 데이터 통신(프론트 <=> 서버)
 
 
 
@@ -87,4 +85,3 @@
 <br><br>
 
 
-### 추후 개발 가능성
