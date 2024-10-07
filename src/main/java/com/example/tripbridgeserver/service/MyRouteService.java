@@ -6,7 +6,7 @@ import com.example.tripbridgeserver.dto.MyRouteResponseDTO;
 import com.example.tripbridgeserver.entity.ChatRoute;
 import com.example.tripbridgeserver.entity.MyPlace;
 import com.example.tripbridgeserver.entity.MyRoute;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.ChatRouteRepository;
 import com.example.tripbridgeserver.repository.MyPlaceRepository;
 import com.example.tripbridgeserver.repository.MyRouteRepository;
@@ -37,13 +37,13 @@ public class MyRouteService {
     public Long createMyRoutes(String userEmail) {
 
         // 사용자 확인
-        UserEntity user = userRepository.findByEmail(userEmail);
+        User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new RuntimeException("사용자를 찾을 수 없습니다.");
         }
 
         // 기존 MyRoute 목록에서 이름이 "동선"으로 시작하는 것들 중 가장 큰 숫자 찾기
-        List<MyRoute> existingRoutes = myRouteRepository.findByUserEntityAndNameStartingWith(user, "동선");
+        List<MyRoute> existingRoutes = myRouteRepository.findByUserAndNameStartingWith(user, "동선");
         int maxSuffix = 0;
         for (MyRoute route : existingRoutes) {
             String name = route.getName();
@@ -62,14 +62,14 @@ public class MyRouteService {
         String newRouteName = "동선" + (maxSuffix + 1);
 
         // ChatRoute에서 userId로 place와 address 목록 가져오기
-        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntityId(user.getId());
+        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserId(user.getId());
 
         // MyRoute 생성
         MyRoute myRoute = new MyRoute();
         myRoute.setName(newRouteName);
         myRoute.setRate(0);
         myRoute.setComment(null);
-        myRoute.setUserEntity(user);
+        myRoute.setUser(user);
         myRouteRepository.save(myRoute);
 
 
@@ -117,12 +117,12 @@ public class MyRouteService {
 
     // 특정 사용자의 저장 루트 목록 조회
     public List<MyRouteDTO> getMyRoutes(String userEmail) {
-        UserEntity user = userRepository.findByEmail(userEmail);
+        User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new RuntimeException("사용자를 찾을 수 없습니다.");
         }
 
-        List<MyRoute> routes = myRouteRepository.findByUserEntityId(user.getId());
+        List<MyRoute> routes = myRouteRepository.findByUserId(user.getId());
         return routes.stream()
                 .map(route -> new MyRouteDTO(
                         route.getId(),

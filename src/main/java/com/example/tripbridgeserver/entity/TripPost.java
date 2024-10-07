@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tripPost")
+@Table(name = "trip_posts")
 
 public class TripPost {
     @Id
@@ -35,7 +35,7 @@ public class TripPost {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private UserEntity userEntity;
+    private User user;
 
     @OneToMany(mappedBy = "tripPost", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

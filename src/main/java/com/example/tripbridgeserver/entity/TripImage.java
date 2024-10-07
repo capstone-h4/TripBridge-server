@@ -8,7 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tripImage")
+@Table(name = "trip_images")
 public class TripImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

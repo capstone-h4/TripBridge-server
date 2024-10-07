@@ -19,13 +19,13 @@ public class TripCommentDTO {
     private  final TripPostRepository tripPostRepository;
 
     //TripCommentDTO 를 Entity 로 전환
-    public TripComment toEntity(UserEntity currentUser, TripPostRepository tripPostRepository ){
+    public TripComment toEntity(User currentUser, TripPostRepository tripPostRepository ){
         TripPost tripPost = tripPostRepository.findById(tripPost_id)
                 .orElseThrow(() -> new RuntimeException("TripPest not found with id: " + tripPost_id));
         TripComment tripComment = new TripComment();
         tripComment.setContent(this.content);
         tripComment.setCreated_at(new Timestamp(System.currentTimeMillis()));
-        tripComment.setUserEntity(currentUser);
+        tripComment.setUser(currentUser);
         tripComment.setTripPost(tripPost);
         tripComment.setDepth(0L); // 대댓글의 깊이는 일단 0으로 설정
         tripComment.setComment_group(0L); // 대댓글의 그룹은 일단 0으로 설정

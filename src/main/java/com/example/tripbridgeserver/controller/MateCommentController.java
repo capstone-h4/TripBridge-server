@@ -3,11 +3,10 @@ package com.example.tripbridgeserver.controller;
 import com.example.tripbridgeserver.dto.MateCommentDTO;
 import com.example.tripbridgeserver.entity.MateComment;
 import com.example.tripbridgeserver.entity.MatePost;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.MateCommentRepository;
 import com.example.tripbridgeserver.repository.MatePostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,21 +14,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 
-//Mate 게시판 댓글 관련 Controller
+
 @RestController
+@RequiredArgsConstructor
 public class MateCommentController {
 
     private final MatePostRepository matePostRepository;
     private final UserRepository userRepository;
     private final MateCommentRepository mateCommentRepository;
 
-    @Autowired
-    public MateCommentController(MatePostRepository matePostRepository, UserRepository userRepository, MateCommentRepository mateCommentRepository) {
-        this.matePostRepository = matePostRepository;
-        this.userRepository = userRepository;
-        this.mateCommentRepository = mateCommentRepository;
-    }
+
 
     //Mate 게시판 id번 글에 대한 댓글 조회
     @GetMapping("/mate/{id}/comment")
@@ -47,7 +43,7 @@ public class MateCommentController {
     public ResponseEntity<MateComment> createComment(@RequestBody MateCommentDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
         MateComment mateComment = dto.toEntity(currentUser, matePostRepository);
 
         // 부모 댓글이 있는 경우
@@ -79,7 +75,7 @@ public class MateCommentController {
     public ResponseEntity<MateComment> update(@PathVariable Long id, @RequestBody MateCommentDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
         MateComment mateComment = dto.toEntity(currentUser, matePostRepository);
 
         MateComment target = mateCommentRepository.findById(id).orElse(null);
@@ -89,7 +85,7 @@ public class MateCommentController {
         }
         target.setMatePost(mateComment.getMatePost());
         target.setContent(mateComment.getContent());
-        target.setUserEntity(mateComment.getUserEntity());
+        target.setUser(mateComment.getUser());
         MateComment updated = mateCommentRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }

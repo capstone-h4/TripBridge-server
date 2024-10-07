@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface MyPlaceRepository extends JpaRepository<MyPlace, Long> {
     List<MyPlace> findByMyRoute(MyRoute myRoute);
-
     void deleteByMyRoute(MyRoute myRoute);
 }

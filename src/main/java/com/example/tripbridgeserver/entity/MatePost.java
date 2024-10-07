@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "matePost")
+@Table(name = "mate_posts")
 
 public class MatePost {
     @Id
@@ -32,7 +32,7 @@ public class MatePost {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private UserEntity userEntity;
+    private User user;
 
 
 

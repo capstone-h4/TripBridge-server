@@ -3,11 +3,11 @@ package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.TripPostDTO;
 import com.example.tripbridgeserver.entity.TripPost;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.TripPostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.service.TripPostService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,20 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//Trip 게시판 관련 Controller
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class TripPostController {
 
     private final TripPostService tripPostService;
     private final TripPostRepository tripPostRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    public TripPostController(TripPostService tripPostService,TripPostRepository tripPostRepository, UserRepository userRepository) {
-        this.tripPostRepository = tripPostRepository;
-        this.userRepository = userRepository;
-        this.tripPostService = tripPostService;
-    }
+
     //Trip 게시판 전체 조회
     @GetMapping("/trip")
     public List<TripPost> index(){
@@ -45,7 +42,7 @@ public class TripPostController {
     public TripPost create(@ModelAttribute TripPostDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
 
         if (dto.getImages() == null) {
             dto.setImages(new ArrayList<>()); // 이미지 목록을 빈 리스트로 설정

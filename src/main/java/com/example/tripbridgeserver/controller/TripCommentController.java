@@ -3,7 +3,6 @@ package com.example.tripbridgeserver.controller;
 import com.example.tripbridgeserver.dto.TripCommentDTO;
 import com.example.tripbridgeserver.entity.*;
 import com.example.tripbridgeserver.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -11,20 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-//Trip 게시판 댓글 관련 Controller
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class TripCommentController {
 
     private final TripPostRepository tripPostRepository;
     private final UserRepository userRepository;
     private final TripCommentRepository tripCommentRepository;
-
-    @Autowired
-    public TripCommentController(TripPostRepository tripPostRepository, UserRepository userRepository, TripCommentRepository tripCommentRepository) {
-        this.tripPostRepository = tripPostRepository;
-        this.userRepository = userRepository;
-        this.tripCommentRepository = tripCommentRepository;
-    }
 
     //Trip 게시판 id번 글에 대한 댓글 조회
     @GetMapping("/trip/{id}/comment")
@@ -41,7 +35,7 @@ public class TripCommentController {
     public ResponseEntity<TripComment> createComment(@RequestBody TripCommentDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
         TripComment tripComment = dto.toEntity(currentUser, tripPostRepository);
 
         // 부모 댓글이 있는 경우
@@ -73,7 +67,7 @@ public class TripCommentController {
     public ResponseEntity<TripComment> update(@PathVariable Long id, @RequestBody TripCommentDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
         TripComment tripComment = dto.toEntity(currentUser, tripPostRepository);
 
         TripComment target = tripCommentRepository.findById(id).orElse(null);
@@ -83,7 +77,7 @@ public class TripCommentController {
         }
         target.setTripPost(tripComment.getTripPost());
         target.setContent(tripComment.getContent());
-        target.setUserEntity(tripComment.getUserEntity());
+        target.setUser(tripComment.getUser());
         TripComment updated = tripCommentRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }

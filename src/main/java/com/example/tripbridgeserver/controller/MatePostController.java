@@ -2,10 +2,9 @@ package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.MatePostDTO;
 import com.example.tripbridgeserver.entity.MatePost;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.MatePostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,18 +12,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-//Mate 게시판 관련 Controller
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class MatePostController {
 
     private final MatePostRepository matePostRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    public MatePostController(MatePostRepository matePostRepository, UserRepository userRepository) {
-        this.matePostRepository = matePostRepository;
-        this.userRepository = userRepository;
-    }
 
     //Mate 게시판 전체 조회
     @GetMapping("/mate")
@@ -42,7 +38,7 @@ public class MatePostController {
     public MatePost create(@RequestBody  MatePostDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
         MatePost matePost=dto.toEntity(currentUser);
         return matePostRepository.save(matePost);
     }
@@ -52,7 +48,7 @@ public class MatePostController {
     public ResponseEntity<MatePost> update(@PathVariable Long id, @RequestBody MatePostDTO dto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
         MatePost matePost= dto.toEntity(currentUser);
         MatePost target = matePostRepository.findById(id).orElse(null);
 
@@ -62,7 +58,7 @@ public class MatePostController {
 
         target.setTitle(matePost.getTitle());
         target.setContent(matePost.getContent());
-        target.setUserEntity(matePost.getUserEntity());
+        target.setUser(matePost.getUser());
         MatePost updated = matePostRepository.save(target);
 
         return ResponseEntity.status(HttpStatus.OK).body(updated);

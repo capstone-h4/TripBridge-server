@@ -4,7 +4,7 @@ package com.example.tripbridgeserver.service;
 import com.example.tripbridgeserver.common.ResponseDTO;
 import com.example.tripbridgeserver.dto.ScrapDTO;
 import com.example.tripbridgeserver.entity.Scrap;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.ScrapRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +31,13 @@ public class ScrapService {
     public ResponseDTO<Scrap> create(ScrapDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
 
         if (currentUser == null) {
             return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
         }
 
-        List<Scrap> userScraps = scrapRepository.findByUserEntity(currentUser);
+        List<Scrap> userScraps = scrapRepository.findByUser(currentUser);
 
         for (Scrap scrap : userScraps) {
             if (scrap.getPlace().equals(dto.getPlace())) {
@@ -69,8 +69,8 @@ public class ScrapService {
         }
     }
 
-    public List<Scrap> findByUser(UserEntity userEntity) {
-        return scrapRepository.findByUserEntity(userEntity);
+    public List<Scrap> findByUser(User user) {
+        return scrapRepository.findByUser(user);
     }
 }
 

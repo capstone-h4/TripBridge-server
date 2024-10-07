@@ -9,15 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class ScrapController {
+
     private final ScrapService scrapService;
-
-    @Autowired
-    public ScrapController(ScrapService scrapService){
-        this.scrapService = scrapService;
-    }
-
     // 장소 스크랩 생성
     @PostMapping("/storage")
     public ResponseEntity<ResponseDTO<Scrap>> create(@RequestBody ScrapDTO dto) {

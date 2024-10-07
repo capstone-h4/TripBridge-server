@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MatePostRepository extends JpaRepository<MatePost,Long>{
-
-    //Mate 게시글 시간순서대로 정렬
     List<MatePost> findAllByOrderByCreatedAtDesc();
 }

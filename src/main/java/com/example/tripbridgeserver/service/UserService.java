@@ -2,7 +2,7 @@ package com.example.tripbridgeserver.service;
 
 import com.example.tripbridgeserver.dto.UserRequestDTO;
 import com.example.tripbridgeserver.dto.UserResponseDTO;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.common.DtoMapper;
 import com.example.tripbridgeserver.common.ResponseDTO;
@@ -22,8 +22,8 @@ public class UserService {
 
     public ResponseDTO<?> signup(UserRequestDTO.SignUp dto) {
 
-        UserEntity user = userRepository.findByEmail(dto.getEmail());
-        UserEntity user_nickname = userRepository.findByNickname(dto.getNickname());
+        User user = userRepository.findByEmail(dto.getEmail());
+        User user_nickname = userRepository.findByNickname(dto.getNickname());
 
         if (user != null) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
@@ -37,7 +37,7 @@ public class UserService {
             return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
         }
 
-        user = dtoMapper.transform(dto, UserEntity.class);
+        user = dtoMapper.transform(dto, User.class);
 
         userRepository.save(user);
 
@@ -47,7 +47,7 @@ public class UserService {
     @Transactional
     public ResponseDTO<?> login(UserRequestDTO.Login dto) {
 
-        UserEntity user = userRepository.findByEmail(dto.getEmail());
+        User user = userRepository.findByEmail(dto.getEmail());
 
         if (user == null) {
             return ResponseDTO.setFailed("존재하지 않는 사용자입니다.");
@@ -83,7 +83,7 @@ public class UserService {
     @Transactional
     public ResponseDTO<?> logout() {
         String email = jwtProvider.getUserIdFromAccessToken(jwtProvider.resolveAccessToken());
-        UserEntity user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
 
         if (user != null) {
             user.setToken(null);

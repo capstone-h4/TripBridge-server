@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/myroute")
 public class MyRouteController {
 
-
-    @Autowired
-    private MyRouteService myRouteService;
+    private final MyRouteService myRouteService;
 
     // 루트 저장
     @PostMapping

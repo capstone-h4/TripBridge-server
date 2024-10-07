@@ -1,19 +1,15 @@
 package com.example.tripbridgeserver.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "mateComment")
+@Table(name = "mate_comments")
 public class MateComment {
 
     @Id
@@ -34,7 +30,7 @@ public class MateComment {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private UserEntity userEntity;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name="parent_comment_id")

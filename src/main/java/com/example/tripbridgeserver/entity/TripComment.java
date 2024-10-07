@@ -1,6 +1,5 @@
 package com.example.tripbridgeserver.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tripComment")
+@Table(name = "trip_comments")
 public class TripComment {
 
     @Id
@@ -35,7 +34,7 @@ public class TripComment {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private UserEntity userEntity;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name="parent_comment_id")

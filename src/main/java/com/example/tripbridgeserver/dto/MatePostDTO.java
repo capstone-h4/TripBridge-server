@@ -1,7 +1,7 @@
 package com.example.tripbridgeserver.dto;
 
 import com.example.tripbridgeserver.entity.MatePost;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +16,12 @@ public class MatePostDTO {
     private String title;
     private String content;
 
-    public MatePost toEntity(UserEntity currentUser) {
+    public MatePost toEntity(User currentUser) {
         MatePost matePost = new MatePost();
         matePost.setTitle(this.title);
         matePost.setContent(this.content);
         matePost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        matePost.setUserEntity(currentUser);
+        matePost.setUser(currentUser);
         return matePost;
     }
 }

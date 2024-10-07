@@ -3,11 +3,13 @@ package com.example.tripbridgeserver.controller;
 import com.example.tripbridgeserver.dto.ChatGPTRequest;
 import com.example.tripbridgeserver.dto.ChatGPTResponse;
 import com.example.tripbridgeserver.entity.ChatRoute;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.ChatRouteRepository;
 import com.example.tripbridgeserver.repository.RouteRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.service.RouteService;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 public class ChatBotController {
@@ -36,15 +39,6 @@ public class ChatBotController {
     private final UserRepository userRepository;
     private final ChatRouteRepository chatRouteRepository;
     private RestTemplate restTemplate;
-
-    @Autowired
-    public ChatBotController(RouteService routeService, RouteRepository routeRepository, UserRepository userRepository, ChatRouteRepository chatRouteRepository, RestTemplate restTemplate){
-        this.routeService = routeService;
-        this.routeRepository = routeRepository;
-        this.userRepository = userRepository;
-        this.chatRouteRepository = chatRouteRepository;
-        this.restTemplate = restTemplate;
-    }
 
     // 주변 관광지 추천
     @PostMapping("/chatBot/question1")
@@ -73,14 +67,15 @@ public class ChatBotController {
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
 
     }
-    //동선간의 이동수단, 예상비용 정보
+
+    // 동선간의 이동수단, 예상비용 정보
     @GetMapping("/chatBot/question3")
     public String generatePromptForAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
 
-        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntityOrderByRouteOrder(currentUser);
+        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserOrderByRouteOrder(currentUser);
 
         if (chatRoutes.isEmpty()) {
             return "저장된 장소 정보가 없습니다.";
@@ -99,14 +94,15 @@ public class ChatBotController {
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
 
     }
-    //여행 동선에 따른 일정 추천 정보
+
+    // 여행 동선에 따른 일정 추천 정보
     @PostMapping("/chatBot/question4")
     public String generateSchedule(@RequestBody String schedule) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        UserEntity currentUser = userRepository.findByEmail(userEmail);
+        User currentUser = userRepository.findByEmail(userEmail);
 
-        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserEntityOrderByRouteOrder(currentUser);
+        List<ChatRoute> chatRoutes = chatRouteRepository.findByUserOrderByRouteOrder(currentUser);
 
         if (chatRoutes.isEmpty()) {
             return "저장된 장소 정보가 없습니다.";
@@ -126,6 +122,4 @@ public class ChatBotController {
         ChatGPTResponse chatGPTResponse =  restTemplate.postForObject(apiURL, request, ChatGPTResponse.class);
         return chatGPTResponse.getChoices().get(0).getMessage().getContent();
     }
-
-
 }

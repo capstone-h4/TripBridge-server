@@ -6,7 +6,7 @@ import com.example.tripbridgeserver.config.S3Config;
 import com.example.tripbridgeserver.dto.TripPostDTO;
 import com.example.tripbridgeserver.entity.TripImage;
 import com.example.tripbridgeserver.entity.TripPost;
-import com.example.tripbridgeserver.entity.UserEntity;
+import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.TripPostRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +41,12 @@ public class TripPostService {
     }
 
     //Trip 게시글 Entity 로 변환
-    public TripPost toEntity(TripPostDTO dto, UserEntity currentUser) {
+    public TripPost toEntity(TripPostDTO dto, User currentUser) {
         TripPost tripPost = new TripPost();
         tripPost.setTitle(dto.getTitle());
         tripPost.setContent(dto.getContent());
         tripPost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        tripPost.setUserEntity(currentUser);
+        tripPost.setUser(currentUser);
 
         List<TripImage> tripImages = new ArrayList<>();
 
