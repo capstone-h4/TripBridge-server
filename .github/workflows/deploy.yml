@@ -27,12 +27,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      # application.yml
-      - name: application.yml 설정
+      # application.properties
+      - name: application.properties 설정
         run: |
           set +x
-          touch src/main/resources/application.yml
-          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+          touch src/main/resources/application.properties
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" > src/main/resources/application.properties
 
       # Docker 로그인
       - name: docker login
