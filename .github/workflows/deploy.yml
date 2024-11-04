@@ -8,7 +8,6 @@ on:
       - cicd/#41
     paths-ignore:
       - 'README.md'
-      - 'src/test/**'
 
 permissions:
   contents: read
