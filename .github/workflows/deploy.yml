@@ -10,7 +10,6 @@ on:
       - 'README.md'
       - 'src/test/**'
 
-
 permissions:
   contents: read
 
