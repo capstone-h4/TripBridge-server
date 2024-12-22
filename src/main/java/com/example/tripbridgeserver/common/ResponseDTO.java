@@ -3,7 +3,6 @@ package com.example.tripbridgeserver.common;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-// 응답 객체 생성
 @Data
 @AllArgsConstructor(staticName = "set")
 public class ResponseDTO<D> {

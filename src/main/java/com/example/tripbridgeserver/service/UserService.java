@@ -1,7 +1,8 @@
 package com.example.tripbridgeserver.service;
 
-import com.example.tripbridgeserver.dto.UserRequestDTO;
-import com.example.tripbridgeserver.dto.UserResponseDTO;
+import com.example.tripbridgeserver.dto.LoginRequest;
+import com.example.tripbridgeserver.dto.LoginResponse;
+import com.example.tripbridgeserver.dto.SignupRequest;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.common.DtoMapper;
@@ -20,10 +21,10 @@ public class UserService {
     private final DtoMapper dtoMapper;
     private final JwtProvider jwtProvider;
 
-    public ResponseDTO<?> signup(UserRequestDTO.SignUp dto) {
+    public ResponseDTO<?> signup(SignupRequest signupRequest) {
 
-        User user = userRepository.findByEmail(dto.getEmail());
-        User user_nickname = userRepository.findByNickname(dto.getNickname());
+        User user = userRepository.findByEmail(signupRequest.getEmail());
+        User user_nickname = userRepository.findByNickname(signupRequest.getNickname());
 
         if (user != null) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
@@ -33,11 +34,11 @@ public class UserService {
             return ResponseDTO.setFailed("중복된 Nickname 입니다.");
         }
 
-        if (!dto.getPassword().equals(dto.getPw_check())) {
+        if (!signupRequest.getPassword().equals(signupRequest.getPwCheck())) {
             return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
         }
 
-        user = dtoMapper.transform(dto, User.class);
+        user = dtoMapper.transform(signupRequest, User.class);
 
         userRepository.save(user);
 
@@ -45,15 +46,15 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseDTO<?> login(UserRequestDTO.Login dto) {
+    public ResponseDTO<?> login(LoginRequest loginRequest) {
 
-        User user = userRepository.findByEmail(dto.getEmail());
+        User user = userRepository.findByEmail(loginRequest.getEmail());
 
         if (user == null) {
             return ResponseDTO.setFailed("존재하지 않는 사용자입니다.");
         }
 
-        if (!verifyPassword(dto.getPassword(), user.getPassword())) {
+        if (!verifyPassword(loginRequest.getPassword(), user.getPassword())) {
             return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
         }
 
@@ -61,7 +62,7 @@ public class UserService {
         String accessToken = jwtProvider.createAccessToken(user.getEmail(), null);
         String nickname = user.getNickname();
 
-        UserResponseDTO.Login data = UserResponseDTO.Login.builder()
+        LoginResponse data = LoginResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .nickname(nickname)
