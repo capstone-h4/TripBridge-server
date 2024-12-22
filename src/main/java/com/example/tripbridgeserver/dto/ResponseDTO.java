@@ -1,4 +1,4 @@
-package com.example.tripbridgeserver.common;
+package com.example.tripbridgeserver.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -3,7 +3,7 @@ package com.example.tripbridgeserver.controller;
 import com.example.tripbridgeserver.dto.LoginRequest;
 import com.example.tripbridgeserver.dto.SignupRequest;
 import com.example.tripbridgeserver.service.UserService;
-import com.example.tripbridgeserver.common.ResponseDTO;
+import com.example.tripbridgeserver.dto.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,7 +1,7 @@
 package com.example.tripbridgeserver.service;
 
 
-import com.example.tripbridgeserver.common.ResponseDTO;
+import com.example.tripbridgeserver.dto.ResponseDTO;
 import com.example.tripbridgeserver.dto.ScrapDTO;
 import com.example.tripbridgeserver.entity.Scrap;
 import com.example.tripbridgeserver.entity.User;

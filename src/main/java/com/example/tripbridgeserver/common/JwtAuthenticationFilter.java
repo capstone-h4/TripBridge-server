@@ -19,7 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-// OncePerRequestFilter => Spring Security. 요청 당 한 번의 실행을 보장
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -50,7 +49,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-
     }
-
 }

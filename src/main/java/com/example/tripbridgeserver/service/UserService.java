@@ -6,7 +6,7 @@ import com.example.tripbridgeserver.dto.SignupRequest;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.common.DtoMapper;
-import com.example.tripbridgeserver.common.ResponseDTO;
+import com.example.tripbridgeserver.dto.ResponseDTO;
 import com.example.tripbridgeserver.common.JwtProvider;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +24,13 @@ public class UserService {
     public ResponseDTO<?> signup(SignupRequest signupRequest) {
 
         User user = userRepository.findByEmail(signupRequest.getEmail());
-        User user_nickname = userRepository.findByNickname(signupRequest.getNickname());
+        User userNickname = userRepository.findByNickname(signupRequest.getNickname());
 
         if (user != null) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
         }
 
-        if (user_nickname != null) {
+        if (userNickname != null) {
             return ResponseDTO.setFailed("중복된 Nickname 입니다.");
         }
 
@@ -42,7 +42,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        return ResponseDTO.setSuccess("회원 생성에 성공했습니다.");
+        return ResponseDTO.setSuccess("회원가입에 성공하였습니다.");
     }
 
     @Transactional
