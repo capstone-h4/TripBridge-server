@@ -1,8 +1,8 @@
 package com.example.tripbridgeserver.service;
 
 import com.example.tripbridgeserver.dto.MyPlaceResponseDTO;
-import com.example.tripbridgeserver.dto.MyRouteDTO;
-import com.example.tripbridgeserver.dto.MyRouteResponseDTO;
+import com.example.tripbridgeserver.dto.MyRouteListResponse;
+import com.example.tripbridgeserver.dto.MyRouteResponse;
 import com.example.tripbridgeserver.entity.ChatRoute;
 import com.example.tripbridgeserver.entity.MyPlace;
 import com.example.tripbridgeserver.entity.MyRoute;
@@ -11,32 +11,26 @@ import com.example.tripbridgeserver.repository.ChatRouteRepository;
 import com.example.tripbridgeserver.repository.MyPlaceRepository;
 import com.example.tripbridgeserver.repository.MyRouteRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MyRouteService {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private ChatRouteRepository chatRouteRepository;
+    private final UserRepository userRepository;
+    private final ChatRouteRepository chatRouteRepository;
+    private final MyRouteRepository myRouteRepository;
+    private final MyPlaceRepository myPlaceRepository;
 
-    @Autowired
-    private MyRouteRepository myRouteRepository;
-
-    @Autowired
-    private MyPlaceRepository myPlaceRepository;
-
-    // 루트 저장
     @Transactional
-    public Long createMyRoutes(String userEmail) {
+    public Long createRoute(String userEmail) {
 
-        // 사용자 확인
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new RuntimeException("사용자를 찾을 수 없습니다.");
@@ -54,17 +48,16 @@ public class MyRouteService {
                         maxSuffix = suffix;
                     }
                 } catch (NumberFormatException e) {
+
                 }
             }
         }
 
-        // 새 동선 이름 설정
-        String newRouteName = "동선" + (maxSuffix + 1);
+        String newRouteName = "동선" + (maxSuffix + 1); // 새 동선 이름 설정
 
-        // ChatRoute에서 userId로 place와 address 목록 가져오기
+        // ChatRoute에서 place와 address 목록 가져오기
         List<ChatRoute> chatRoutes = chatRouteRepository.findByUserId(user.getId());
 
-        // MyRoute 생성
         MyRoute myRoute = new MyRoute();
         myRoute.setName(newRouteName);
         myRoute.setRate(0);
@@ -72,8 +65,6 @@ public class MyRouteService {
         myRoute.setUser(user);
         myRouteRepository.save(myRoute);
 
-
-        // ChatRoute 데이터로 MyPlace 생성
         for (ChatRoute chatRoute : chatRoutes) {
             MyPlace myPlace = new MyPlace();
             myPlace.setPlace(chatRoute.getPlace());
@@ -84,17 +75,13 @@ public class MyRouteService {
         }
 
         return myRoute.getId();
-
     }
 
-
-    // 루트 저장 관련 상세보기
-    public MyRouteResponseDTO getMyRouteWithPlaces(Long routeId) {
+    public MyRouteResponse getRoute(Long routeId) {
 
         MyRoute myRoute = myRouteRepository.findById(routeId)
-                .orElseThrow(() -> new RuntimeException("MyRoute not found"));
-
-        // MyPlace 리스트 조회 및 DTO로 변환
+                .orElseThrow(() -> new RuntimeException("동선을 찾을 수 없습니다."));
+        
         List<MyPlaceResponseDTO> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
                 .stream()
                 .map(place -> new MyPlaceResponseDTO(
@@ -103,10 +90,9 @@ public class MyRouteService {
                         place.getAddress(),
                         place.getRoute_order()
                 ))
-                .collect(Collectors.toList());
-
-        // DTO로 반환
-        return new MyRouteResponseDTO(
+                .toList();
+        
+        return new MyRouteResponse(
                 myRoute.getId(),
                 myRoute.getName(),
                 myRoute.getRate(),
@@ -114,9 +100,8 @@ public class MyRouteService {
                 myPlaces
         );
     }
-
-    // 특정 사용자의 저장 루트 목록 조회
-    public List<MyRouteDTO> getMyRoutes(String userEmail) {
+    
+    public List<MyRouteListResponse> getRouteList(String userEmail) {
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new RuntimeException("사용자를 찾을 수 없습니다.");
@@ -124,21 +109,20 @@ public class MyRouteService {
 
         List<MyRoute> routes = myRouteRepository.findByUserId(user.getId());
         return routes.stream()
-                .map(route -> new MyRouteDTO(
+                .map(route -> new MyRouteListResponse(
                         route.getId(),
                         route.getName(),
                         route.getRate(),
                         route.getComment()
                 ))
-                .collect(Collectors.toList());
+                .toList();
     }
 
-
-    // 저장 루트 수정
+    
     @Transactional
-    public MyRouteResponseDTO updateMyRoute(Long routeId, String name, Integer rate, String comment) {
+    public MyRouteResponse updateMyRoute(Long routeId, String name, Integer rate, String comment) {
         MyRoute myRoute = myRouteRepository.findById(routeId)
-                .orElseThrow(() -> new RuntimeException("저장된 루트가 없습니다."));
+                .orElseThrow(() -> new RuntimeException("저장된 동선가 없습니다."));
 
         if (name != null) myRoute.setName(name);
         if (rate != null) {
@@ -150,8 +134,7 @@ public class MyRouteService {
         if (comment != null) myRoute.setComment(comment);
 
         myRouteRepository.save(myRoute);
-
-        // DTO로 변환
+        
         List<MyPlaceResponseDTO> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
                 .stream()
                 .map(place -> new MyPlaceResponseDTO(
@@ -160,9 +143,9 @@ public class MyRouteService {
                         place.getAddress(),
                         place.getRoute_order()
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
-        return new MyRouteResponseDTO(
+        return new MyRouteResponse(
                 myRoute.getId(),
                 myRoute.getName(),
                 myRoute.getRate(),
@@ -170,20 +153,14 @@ public class MyRouteService {
                 myPlaces
         );
     }
-
-
-    // 저장 동선 삭제 => 저장된 장소들도 함께 삭제
+    
     @Transactional
     public void deleteMyRoute(Long routeId) {
         MyRoute myRoute = myRouteRepository.findById(routeId)
                 .orElseThrow(() -> new RuntimeException("동선을 찾을 수 없습니다."));
-
-        // MyRoute에 연결된 장소들도 삭제
-        myPlaceRepository.deleteByMyRoute(myRoute);
-
-        // 동선 삭제
+        
+        myPlaceRepository.deleteByMyRoute(myRoute); // 동선에 저장된 장소들도 삭제
+        
         myRouteRepository.delete(myRoute);
     }
-
-
 }

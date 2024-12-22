@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MyRouteResponseDTO {
+public class MyRouteResponse {
 
     private Long id;
     private String name;
@@ -15,7 +15,7 @@ public class MyRouteResponseDTO {
     private String comment;
     private List<MyPlaceResponseDTO> myPlaces;
 
-    public MyRouteResponseDTO(Long id, String name, int rate, String comment, List<MyPlaceResponseDTO> myPlaces) {
+    public MyRouteResponse(Long id, String name, int rate, String comment, List<MyPlaceResponseDTO> myPlaces) {
         this.id = id;
         this.name = name;
         this.rate = rate;
