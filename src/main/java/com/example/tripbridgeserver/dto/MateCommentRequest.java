@@ -15,30 +15,25 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @ToString
-public class MateCommentDTO {
-    private Long matePost_id;
-    private String content;
-    private Long parent_comment_id;
-    private  final MatePostRepository matePostRepository;
+public class MateCommentRequest {
 
-    //MateCommentDTO 를 Entity 로 전환
+    private final MatePostRepository matePostRepository;
+
+    private Long matePostId;
+    private String content;
+    private Long parentCommentId;
+
     public MateComment toEntity(User currentUser, MatePostRepository matePostRepository ){
-        MatePost matePost = matePostRepository.findById(matePost_id)
-                .orElseThrow(() -> new RuntimeException("MatePest not found with id: " + matePost_id));
+        MatePost matePost = matePostRepository.findById(matePostId)
+                .orElseThrow(() -> new RuntimeException("해당 게시글을 찾을 수 없습니다. MatePostId: " + matePostId));
         MateComment mateComment = new MateComment();
         mateComment.setContent(this.content);
-        mateComment.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        mateComment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         mateComment.setUser(currentUser);
         mateComment.setMatePost(matePost);
-        mateComment.setDepth(0L); // 대댓글의 깊이는 일단 0으로 설정
-        mateComment.setComment_group(0L); // 대댓글의 그룹은 일단 0으로 설정
-        mateComment.setComment_order(0L); // 대댓글의 순서는 일단 0으로 설정
+        mateComment.setDepth(0L); // 계층 깊이
+        mateComment.setCommentGroup(0L); // 그룹
+        mateComment.setCommentOrder(0L); // 순서
         return mateComment;
-
     }
-
-
-
-
-
 }
