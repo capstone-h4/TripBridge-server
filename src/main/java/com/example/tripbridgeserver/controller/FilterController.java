@@ -1,7 +1,7 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.service.FilterService;
-import com.example.tripbridgeserver.service.FilterServiceException;
+import com.example.tripbridgeserver.exception.FilterServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

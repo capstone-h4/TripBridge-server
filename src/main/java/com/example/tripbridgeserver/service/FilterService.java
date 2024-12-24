@@ -1,5 +1,6 @@
 package com.example.tripbridgeserver.service;
 
+import com.example.tripbridgeserver.exception.FilterServiceException;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
