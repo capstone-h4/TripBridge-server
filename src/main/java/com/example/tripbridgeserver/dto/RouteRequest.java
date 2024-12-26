@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-public class RouteDTO {
+public class RouteRequest {
     private String place;
     private String address;
     private BigDecimal latitude;
