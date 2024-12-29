@@ -23,14 +23,14 @@ public class TripComment {
 
     @ManyToOne
     @JoinColumn(name = "tripPost_id")
-    private  TripPost tripPost;
+    private TripPost tripPost;
 
-    @Column(name = "content", nullable = false)
+    @Column(nullable = false)
     private String content;
 
     @CreatedDate
-    @Column(name="created_at",updatable = false)
-    private Timestamp created_at;
+    @Column(updatable = false)
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -40,13 +40,13 @@ public class TripComment {
     @JoinColumn(name="parent_comment_id")
     private TripComment parentComment;
 
-    @Column(name = "depth", nullable = false)
+    @Column(nullable = false)
     private Long depth;
 
-    @Column(name = "comment_order", nullable = false)
-    private Long comment_order;
+    @Column(nullable = false)
+    private Long commentOrder;
 
-    @Column(name = "comment_group", nullable = false)
-    private Long comment_group;
+    @Column(nullable = false)
+    private Long commentGroup;
 
 }
