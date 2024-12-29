@@ -27,7 +27,7 @@ public class User {
     @Column(name = "pw", nullable = false, length = 20)
     private String password;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "pw_check", nullable = false, length = 20)
     private String pwCheck;
 
     @Column(nullable = false)

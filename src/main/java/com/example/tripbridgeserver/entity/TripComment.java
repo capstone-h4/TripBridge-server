@@ -29,7 +29,7 @@ public class TripComment {
     private String content;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
     @ManyToOne
@@ -43,10 +43,10 @@ public class TripComment {
     @Column(nullable = false)
     private Long depth;
 
-    @Column(nullable = false)
+    @Column(name = "comment_order", nullable = false)
     private Long commentOrder;
 
-    @Column(nullable = false)
+    @Column(name = "comment_group", nullable = false)
     private Long commentGroup;
 
 }
