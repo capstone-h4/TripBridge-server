@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(staticName = "set")
 public class ResponseDTO<D> {
+
     private boolean result;
     private String message;
     private D data;

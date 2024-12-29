@@ -29,7 +29,7 @@ public class ChatRoute {
     private BigDecimal longitude;
 
     @Column(name = "route_order")
-    private Long route_order;
+    private Long routeOrder;
 
     @ManyToOne
     @JoinColumn(name="user_id")

@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "trip_images")
 public class TripImage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -22,6 +23,4 @@ public class TripImage {
     @JoinColumn(name = "tripPost_id", nullable = false)
     @JsonBackReference
     private TripPost tripPost;
-
-
 }

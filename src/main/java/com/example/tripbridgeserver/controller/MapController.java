@@ -14,8 +14,7 @@ public class MapController {
 
     private final MapService mapService;
 
-    // 동선 추천 페이지에서 사용자의 스크랩 목록 조회
-    @GetMapping("/scrap")
+    @GetMapping("/scrap") // 동선 추천 페이지에서 사용자의 스크랩 목록 조회
     public List<Scrap> getScrap(){
         return mapService.getUserScrap();
     }

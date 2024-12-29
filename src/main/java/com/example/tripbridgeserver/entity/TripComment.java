@@ -48,5 +48,4 @@ public class TripComment {
 
     @Column(name = "comment_group", nullable = false)
     private Long commentGroup;
-
 }

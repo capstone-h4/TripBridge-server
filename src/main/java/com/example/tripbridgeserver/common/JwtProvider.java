@@ -14,8 +14,7 @@ import java.util.List;
 @Slf4j
 @Component
 
-// accessToken : 1h, refreshToken : 24h
-public class JwtProvider {
+public class JwtProvider { // accessToken : 1h, refreshToken : 24h
 
     @Value("${spring.security.jwt.access.expired}")
     private Long accessTokenExpired;
@@ -59,14 +58,6 @@ public class JwtProvider {
 
     public boolean validateAccessToken() {
         return validateToken(resolveAccessToken(), accessSecretKey);
-    }
-
-    public boolean validateAccessToken(String jwtToken) {
-        return validateToken(jwtToken, accessSecretKey);
-    }
-
-    public boolean validateRefreshToken(String jwtToken) {
-        return validateToken(jwtToken, refreshSecretKey);
     }
 
     private boolean validateToken(String jwtToken, String secret) {

@@ -69,7 +69,7 @@ public class MyRouteService {
             MyPlace myPlace = new MyPlace();
             myPlace.setPlace(chatRoute.getPlace());
             myPlace.setAddress(chatRoute.getAddress());
-            myPlace.setRoute_order(chatRoute.getRoute_order());
+            myPlace.setRouteOrder(chatRoute.getRouteOrder());
             myPlace.setMyRoute(myRoute);
             myPlaceRepository.save(myPlace);
         }
@@ -88,7 +88,7 @@ public class MyRouteService {
                         place.getId(),
                         place.getPlace(),
                         place.getAddress(),
-                        place.getRoute_order()
+                        place.getRouteOrder()
                 ))
                 .toList();
         
@@ -141,7 +141,7 @@ public class MyRouteService {
                         place.getId(),
                         place.getPlace(),
                         place.getAddress(),
-                        place.getRoute_order()
+                        place.getRouteOrder()
                 ))
                 .toList();
 

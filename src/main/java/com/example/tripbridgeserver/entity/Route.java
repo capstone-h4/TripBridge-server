@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Table(name = "routes")
 public class Route {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,7 +33,7 @@ public class Route {
     private BigDecimal longitude;
 
     @Column(name = "route_order")
-    private Long route_order;
+    private Long routeOrder;
 
     @ManyToOne
     @JoinColumn(name="user_id")

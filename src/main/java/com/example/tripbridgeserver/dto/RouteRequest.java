@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 public class RouteRequest {
+
     private String place;
     private String address;
     private BigDecimal latitude;
     private BigDecimal longitude;
-    private Long route_order;
-
+    private Long routeOrder;
 }

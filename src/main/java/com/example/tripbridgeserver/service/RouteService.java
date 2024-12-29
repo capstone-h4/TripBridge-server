@@ -42,7 +42,7 @@ public class RouteService {
         route.setAddress(routeRequest.getAddress());
         route.setLatitude(routeRequest.getLatitude());
         route.setLongitude(routeRequest.getLongitude());
-        route.setRoute_order(routeRequest.getRoute_order());
+        route.setRouteOrder(routeRequest.getRouteOrder());
         route.setUser(user);
 
         return route;
@@ -51,10 +51,10 @@ public class RouteService {
     public void modifyRouteOrder() {
         List<Route> routes = routeRepository.findAll();
 
-        // 초기 노드를 찾기 위해 데이터를 순차적으로 확인하면서 route_order가 1인 노드를 찾기
+        // 초기 노드를 찾기 위해 데이터를 순차적으로 확인하면서 routeOrder 가 1인 노드 찾기
         Route initialRoute = null;
         for (Route route : routes) {
-            Long routeOrder = route.getRoute_order();
+            Long routeOrder = route.getRouteOrder();
             if (routeOrder != null && routeOrder == 1) {
                 initialRoute = route;
                 break;
@@ -73,7 +73,7 @@ public class RouteService {
         // 경로 순서를 업데이트
         for (int i = 0; i < optimizedRoute.size(); i++) {
             Route route = optimizedRoute.get(i);
-            route.setRoute_order((long) (i + 1)); // 경로 순서는 1부터 시작
+            route.setRouteOrder((long) (i + 1)); // 경로 순서는 1부터 시작
             routeRepository.save(route);
         }
     }
@@ -125,7 +125,7 @@ public class RouteService {
 
                 chatRoute.setPlace(route.getPlace());
                 chatRoute.setAddress(route.getAddress());
-                chatRoute.setRoute_order(route.getRoute_order());
+                chatRoute.setRouteOrder(route.getRouteOrder());
                 chatRoute.setLatitude(route.getLatitude());
                 chatRoute.setLongitude(route.getLongitude());
                 chatRoute.setUser(route.getUser());
