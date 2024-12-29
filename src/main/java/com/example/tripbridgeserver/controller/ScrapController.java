@@ -1,7 +1,7 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.ResponseDTO;
-import com.example.tripbridgeserver.dto.ScrapDTO;
+import com.example.tripbridgeserver.dto.ScrapRequest;
 import com.example.tripbridgeserver.entity.Scrap;
 import com.example.tripbridgeserver.service.ScrapService;
 
@@ -18,7 +18,7 @@ public class ScrapController {
     private final ScrapService scrapService;
     // 장소 스크랩 생성
     @PostMapping("/storage")
-    public ResponseEntity<ResponseDTO<Scrap>> create(@RequestBody ScrapDTO dto) {
+    public ResponseEntity<ResponseDTO<Scrap>> create(@RequestBody ScrapRequest dto) {
         ResponseDTO<Scrap> responseDTO = scrapService.create(dto);
 
         if (responseDTO.isResult()) {

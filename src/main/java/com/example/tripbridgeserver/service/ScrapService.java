@@ -2,7 +2,7 @@ package com.example.tripbridgeserver.service;
 
 
 import com.example.tripbridgeserver.dto.ResponseDTO;
-import com.example.tripbridgeserver.dto.ScrapDTO;
+import com.example.tripbridgeserver.dto.ScrapRequest;
 import com.example.tripbridgeserver.entity.Scrap;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.ScrapRepository;
@@ -28,7 +28,7 @@ public class ScrapService {
         this.userRepository = userRepository;
     }
 
-    public ResponseDTO<Scrap> create(ScrapDTO dto) {
+    public ResponseDTO<Scrap> create(ScrapRequest dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         User currentUser = userRepository.findByEmail(userEmail);
