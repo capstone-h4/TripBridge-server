@@ -1,12 +1,12 @@
-package com.example.tripbridgeserver.common;
+package com.example.tripbridgeserver.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-// 응답 객체 생성
 @Data
 @AllArgsConstructor(staticName = "set")
 public class ResponseDTO<D> {
+
     private boolean result;
     private String message;
     private D data;

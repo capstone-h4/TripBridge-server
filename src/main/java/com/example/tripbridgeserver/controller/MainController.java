@@ -14,5 +14,4 @@ public class MainController {
     public String healthcheck() {
         return "OK";
     }
-
 }

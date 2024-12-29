@@ -1,51 +1,43 @@
 package com.example.tripbridgeserver.service;
 
-
-import com.example.tripbridgeserver.common.ResponseDTO;
-import com.example.tripbridgeserver.dto.ScrapDTO;
+import com.example.tripbridgeserver.dto.ResponseDTO;
+import com.example.tripbridgeserver.dto.ScrapRequest;
 import com.example.tripbridgeserver.entity.Scrap;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.ScrapRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ScrapService {
 
     private final ScrapRepository scrapRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    public ScrapService(ScrapRepository scrapRepository, UserRepository userRepository) {
-        this.scrapRepository = scrapRepository;
-        this.userRepository = userRepository;
-    }
+    public ResponseDTO<Scrap> createPlaceScrap(ScrapRequest scrapRequest, String userEmail) {
 
-    public ResponseDTO<Scrap> create(ScrapDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
-        User currentUser = userRepository.findByEmail(userEmail);
+        User user = userRepository.findByEmail(userEmail);
 
-        if (currentUser == null) {
+        if (user == null) {
             return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
         }
 
-        List<Scrap> userScraps = scrapRepository.findByUser(currentUser);
+        List<Scrap> userScraps = scrapRepository.findByUser(user);
 
         for (Scrap scrap : userScraps) {
-            if (scrap.getPlace().equals(dto.getPlace())) {
+            if (scrap.getPlace().equals(scrapRequest.getPlace())) {
                 return ResponseDTO.setFailed("해당 장소가 이미 저장되어 있습니다. 저장에 실패하였습니다.");
             }
         }
 
-        Scrap scrap = dto.toEntity(currentUser);
+        Scrap scrap = scrapRequest.toEntity(user);
         scrap = scrapRepository.save(scrap);
 
         if (scrap != null) {
@@ -56,21 +48,17 @@ public class ScrapService {
     }
 
 
-    public ResponseEntity<ResponseDTO<Void>> delete(Long id) {
-        Scrap target = scrapRepository.findById(id).orElse(null);
-        if (target == null) {
+    public ResponseEntity<ResponseDTO<Void>> deletePlaceScrap(Long id) {
+        Scrap scrap = scrapRepository.findById(id).orElse(null);
+        if (scrap == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDTO.set(false, "Scrap ID " + id + " 을(를) 찾지 못하였습니다.", null));
         }
         try {
-            scrapRepository.delete(target);
+            scrapRepository.delete(scrap);
             return ResponseEntity.ok().body(ResponseDTO.setSuccess("Scrap ID " + id + " 이(가) 성공적으로 삭제되었습니다."));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseDTO.setError("Scrap 삭제에 실패하였습니다."));
         }
-    }
-
-    public List<Scrap> findByUser(User user) {
-        return scrapRepository.findByUser(user);
     }
 }
 

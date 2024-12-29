@@ -1,7 +1,7 @@
 package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.service.FilterService;
-import com.example.tripbridgeserver.service.FilterServiceException;
+import com.example.tripbridgeserver.exception.FilterServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +16,7 @@ public class FilterController {
 
     private final FilterService filterService;
 
-    // 공공데이터 이용 장소 필터링
-    @GetMapping("/place/list")
+    @GetMapping("/place/list") // 공공데이터 이용 장소 필터링
     public ResponseEntity<String> showPlace(
             @RequestParam("areaCode") String areaCode,
             @RequestParam("contentTypeId") String contentTypeId,
@@ -33,8 +32,7 @@ public class FilterController {
         }
     }
 
-    // 장소 상세정보 조회
-    @GetMapping("/place")
+    @GetMapping("/place") // 장소 상세정보 조회
     public ResponseEntity<String> showPlaceInfo(
             @RequestParam("contentTypeId") String contentTypeId,
             @RequestParam("contentId") String contentId

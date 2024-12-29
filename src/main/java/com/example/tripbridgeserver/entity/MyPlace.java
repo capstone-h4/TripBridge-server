@@ -19,7 +19,7 @@ public class MyPlace {
 
     private String place;
     private String address;
-    private Long route_order;
+    private Long routeOrder;
 
     @ManyToOne
     @JoinColumn(name = "myroute_id")

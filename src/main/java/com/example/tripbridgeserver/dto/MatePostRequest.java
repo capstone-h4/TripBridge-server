@@ -12,16 +12,16 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @ToString
-public class MatePostDTO {
+public class MatePostRequest {
     private String title;
     private String content;
 
-    public MatePost toEntity(User currentUser) {
+    public MatePost toEntity(User user) {
         MatePost matePost = new MatePost();
         matePost.setTitle(this.title);
         matePost.setContent(this.content);
         matePost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        matePost.setUser(currentUser);
+        matePost.setUser(user);
         return matePost;
     }
 }

@@ -13,19 +13,19 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @ToString
-public class ScrapDTO { // 장소 저장 시 이용 객체
+public class ScrapRequest { // 장소 저장 시 이용 객체
     private String place;
     private String address;
     private BigDecimal longitude;
     private BigDecimal latitude;
 
-    public Scrap toEntity(User currentUser){
+    public Scrap toEntity(User user){
         Scrap scrap = new Scrap();
         scrap.setPlace(this.place);
         scrap.setAddress(this.address);
         scrap.setLongitude(this.longitude);
         scrap.setLatitude(this.latitude);
-        scrap.setUser(currentUser);
+        scrap.setUser(user);
         return scrap;
     }
 }

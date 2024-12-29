@@ -14,8 +14,7 @@ import java.util.List;
 @Slf4j
 @Component
 
-// accessToken : 1h, refreshToken : 24h
-public class JwtProvider {
+public class JwtProvider { // accessToken : 1h, refreshToken : 24h
 
     @Value("${spring.security.jwt.access.expired}")
     private Long accessTokenExpired;
@@ -29,8 +28,6 @@ public class JwtProvider {
     @Value("${spring.security.jwt.refresh.secret}")
     private String refreshSecretKey;
 
-
-    // accessToken 생성
     public String createAccessToken(String userId, List<String> roles) {
 
         LocalDateTime expired = LocalDateTime.now()
@@ -45,7 +42,6 @@ public class JwtProvider {
                 .compact();
     }
 
-    // refreshToken 생성 (accessToken 만료 시 사용)
     public String createRefreshToken(String userId, List<String> roles) {
 
         LocalDateTime expired = LocalDateTime.now()
@@ -60,27 +56,14 @@ public class JwtProvider {
                 .compact();
     }
 
-    // accessToken 유효성 체크
     public boolean validateAccessToken() {
         return validateToken(resolveAccessToken(), accessSecretKey);
     }
 
-
-    // accessToken 유효성 체크
-    public boolean validateAccessToken(String jwtToken) {
-        return validateToken(jwtToken, accessSecretKey);
-    }
-
-    // token 유효성 체크
-    public boolean validateRefreshToken(String jwtToken) {
-        return validateToken(jwtToken, refreshSecretKey);
-    }
-
-    // token 유효성 체크 (만료일자)
-    private boolean validateToken(String jwtToken, String scret) {
+    private boolean validateToken(String jwtToken, String secret) {
         try {
             if (StringUtils.isEmpty(jwtToken)) return false;
-            Jws<Claims> claims = Jwts.parser().setSigningKey(scret).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (ExpiredJwtException e) {
             return false;
@@ -90,8 +73,7 @@ public class JwtProvider {
         }
     }
 
-    // 헤더에서 accessToken 조회
-    public String resolveAccessToken() {
+    public String resolveAccessToken() { // 헤더에서 accessToken 조회
         HttpServletRequest request = HttpRequestUtil.getRequest();
         if (request.getHeader("authorization") != null) {
             if (request.getHeader("authorization").startsWith("Bearer ")) {
@@ -100,19 +82,16 @@ public class JwtProvider {
                 throw new MalformedJwtException("유효하지 않은 토큰형식입니다.");
             }
         }
-
         return null;
     }
 
-    // 헤더에서 refreshToken 토큰 조회
-    public String resolveRefreshToken() {
+    public String resolveRefreshToken() { // 헤더에서 refreshToken 토큰 조회
         HttpServletRequest request = HttpRequestUtil.getRequest();
         if (request.getHeader("refreshToken") != null)
             return request.getHeader("refreshToken").substring(7);
         return null;
     }
 
-    // 사용자 아이디 추출
     public String getUserIdFromAccessToken(String token) {
         try {
             return parseToken(accessSecretKey ,token).getBody().getSubject();
@@ -123,10 +102,7 @@ public class JwtProvider {
         }
     }
 
-    // 토큰 파싱
     private Jws<Claims> parseToken(String secret, String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
     }
-
-
 }

@@ -12,31 +12,30 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(name = "nickname", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String nickname;
 
-    @Column(name = "email", nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
     @Column(name = "pw", nullable = false, length = 20)
     private String password;
 
     @Column(name = "pw_check", nullable = false, length = 20)
-    private String pw_check;
+    private String pwCheck;
 
-    @Column(name = "alarm", nullable = false)
+    @Column(nullable = false)
     private Integer alarm;
 
-    @Column(name = "alarm2", nullable = false)
+    @Column(nullable = false)
     private Integer alarm2;
 
-    @Column(name = "token", length = 255)
+    @Column(length = 255)
     private String token;
-
 }

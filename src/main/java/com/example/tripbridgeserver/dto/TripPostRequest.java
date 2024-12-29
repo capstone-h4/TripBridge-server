@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @ToString
-public class TripPostDTO {
+public class TripPostRequest {
     private String title;
     private String content;
     private List<MultipartFile> images;

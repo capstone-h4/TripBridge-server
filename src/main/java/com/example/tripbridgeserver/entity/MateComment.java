@@ -26,7 +26,7 @@ public class MateComment {
 
     @CreatedDate
     @Column(name="created_at",updatable = false)
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -40,9 +40,9 @@ public class MateComment {
     private Long depth;
 
     @Column(name = "comment_order", nullable = false)
-    private Long comment_order;
+    private Long commentOrder;
 
     @Column(name = "comment_group", nullable = false)
-    private Long comment_group;
+    private Long commentGroup;
 
 }

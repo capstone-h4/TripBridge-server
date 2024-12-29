@@ -8,5 +8,4 @@ public class HttpRequestUtil {
 	public static HttpServletRequest getRequest() {
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	}
-
 }
