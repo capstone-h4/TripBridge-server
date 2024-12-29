@@ -10,6 +10,7 @@ import com.example.tripbridgeserver.entity.MatePost;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.MateCommentRepository;
 import com.example.tripbridgeserver.repository.MatePostRepository;
+import com.example.tripbridgeserver.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MateCommentService {
 
+	private final UserRepository userRepository;
 	private final MatePostRepository matePostRepository;
 	private final MateCommentRepository mateCommentRepository;
 
@@ -29,7 +31,9 @@ public class MateCommentService {
 		}
 	}
 
-	public MateComment createMateComment(MateCommentRequest dto, User user) {
+	public MateComment createMateComment(MateCommentRequest dto, String userEmail) {
+		User user = userRepository.findByEmail(userEmail);
+
 		MateComment mateComment = dto.toEntity(user, matePostRepository);
 
 		if (dto.getParentCommentId() != null) { // 상위 계층의 댓글이 있는 경우
@@ -53,7 +57,9 @@ public class MateCommentService {
 		return mateCommentRepository.save(mateComment);
 	}
 
-	public MateComment updateMateComment(Long mateCommentId, MateCommentRequest dto, User user) {
+	public MateComment updateMateComment(Long mateCommentId, MateCommentRequest dto, String userEmail) {
+		User user = userRepository.findByEmail(userEmail);
+
 		MateComment mateComment = dto.toEntity(user, matePostRepository);
 
 		MateComment target = mateCommentRepository.findById(mateCommentId).orElse(null);

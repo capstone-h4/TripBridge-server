@@ -2,8 +2,6 @@ package com.example.tripbridgeserver.controller;
 
 import com.example.tripbridgeserver.dto.MateCommentRequest;
 import com.example.tripbridgeserver.entity.MateComment;
-import com.example.tripbridgeserver.entity.User;
-import com.example.tripbridgeserver.repository.UserRepository;
 import com.example.tripbridgeserver.service.MateCommentService;
 
 import org.springframework.http.HttpStatus;
@@ -21,8 +19,6 @@ public class MateCommentController {
 
     private final MateCommentService mateCommentService;
 
-    private final UserRepository userRepository;
-
     @GetMapping("/mate/{id}/comment")
     public List<MateComment> getMateComment(@PathVariable Long id) {
         return mateCommentService.getMateCommentByMatePost(id);
@@ -33,11 +29,10 @@ public class MateCommentController {
         @RequestBody MateCommentRequest mateCommentRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        User user = userRepository.findByEmail(userEmail);
 
-        MateComment savedComment = mateCommentService.createMateComment(mateCommentRequest, user);
+        MateComment mateComment = mateCommentService.createMateComment(mateCommentRequest, userEmail);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mateComment);
     }
 
     @PatchMapping("/mate/comment/{id}")
@@ -45,15 +40,14 @@ public class MateCommentController {
         @PathVariable Long id, @RequestBody MateCommentRequest mateCommentRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        User user = userRepository.findByEmail(userEmail);
 
-        MateComment updatedComment = mateCommentService.updateMateComment(id, mateCommentRequest, user);
+        MateComment mateComment = mateCommentService.updateMateComment(id, mateCommentRequest, userEmail);
 
-        if (updatedComment == null) {
+        if ( mateComment == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(updatedComment);
+        return ResponseEntity.status(HttpStatus.OK).body( mateComment);
     }
 
     @DeleteMapping("/mate/comment/{id}")
