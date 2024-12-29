@@ -1,6 +1,6 @@
 package com.example.tripbridgeserver.service;
 
-import com.example.tripbridgeserver.dto.MyPlaceResponseDTO;
+import com.example.tripbridgeserver.dto.MyPlaceResponse;
 import com.example.tripbridgeserver.dto.MyRouteListResponse;
 import com.example.tripbridgeserver.dto.MyRouteResponse;
 import com.example.tripbridgeserver.entity.ChatRoute;
@@ -82,9 +82,9 @@ public class MyRouteService {
         MyRoute myRoute = myRouteRepository.findById(routeId)
                 .orElseThrow(() -> new RuntimeException("동선을 찾을 수 없습니다."));
         
-        List<MyPlaceResponseDTO> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
+        List<MyPlaceResponse> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
                 .stream()
-                .map(place -> new MyPlaceResponseDTO(
+                .map(place -> new MyPlaceResponse(
                         place.getId(),
                         place.getPlace(),
                         place.getAddress(),
@@ -135,9 +135,9 @@ public class MyRouteService {
 
         myRouteRepository.save(myRoute);
         
-        List<MyPlaceResponseDTO> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
+        List<MyPlaceResponse> myPlaces = myPlaceRepository.findByMyRoute(myRoute)
                 .stream()
-                .map(place -> new MyPlaceResponseDTO(
+                .map(place -> new MyPlaceResponse(
                         place.getId(),
                         place.getPlace(),
                         place.getAddress(),

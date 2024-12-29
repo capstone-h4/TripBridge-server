@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MyPlaceResponseDTO {
+public class MyPlaceResponse {
     private Long id;
     private String place;
     private String address;
     private Long route_order;
 
-    public MyPlaceResponseDTO(Long id, String place, String address, Long route_order) {
+    public MyPlaceResponse(Long id, String place, String address, Long route_order) {
         this.id = id;
         this.place = place;
         this.address = address;
