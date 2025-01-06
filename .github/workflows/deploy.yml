@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - dev
-      - cicd/#41
+      - cicd/#61
     paths-ignore:
       - 'README.md'
 
@@ -57,18 +57,12 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
+            set +x
+            echo "${{ secrets.APPLICATION_PROPERTIES }}" > /home/ubuntu/.env
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tripbridge-server:latest
             docker stop tripbridge-container || true
             docker rm -f tripbridge-container || true
             fuser -k 8080/tcp || true
             docker run -it -d --name tripbridge-container -p 8080:8080 \
-            -e DB_URL="${{ secrets.DB_URL }}" \
-            -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
-            -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-            -e JWT_ACCESS="${{ secrets.JWT_ACCESS }}" \
-            -e JWT_REFRESH="${{ secrets.JWT_REFRESH }}" \
-            -e BUCKET_NAME="${{ secrets.BUCKET_NAME }}" \
-            -e BUCKET_ACCESS="${{ secrets.BUCKET_ACCESS }}" \
-            -e BUCKET_SECRET="${{ secrets.BUCKET_SECRET }}" \
-            -e OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}" \
+            --env-file /home/ubuntu/.env \
             ${{ secrets.DOCKERHUB_USERNAME }}/tripbridge-server:latest
