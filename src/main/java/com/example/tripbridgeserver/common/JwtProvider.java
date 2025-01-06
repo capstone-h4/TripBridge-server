@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,6 @@ import java.util.List;
 
 @Slf4j
 @Component
-
 public class JwtProvider { // accessToken : 1h, refreshToken : 24h
 
     @Value("${spring.security.jwt.access.expired}")
