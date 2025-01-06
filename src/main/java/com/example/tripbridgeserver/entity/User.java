@@ -28,7 +28,7 @@ public class User {
     private String password;
 
     @Column(name = "pw_check", nullable = false, length = 20)
-    private String pwCheck;
+    private String pw_check;
 
     @Column(nullable = false)
     private Integer alarm;

@@ -14,7 +14,7 @@ public class SignupRequest {
 	private String nickname;
 	private String email;
 	private String password;
-	private String pwCheck;
+	private String pw_check;
 	private String alarm;
 	private String alarm2;
 	private String token;

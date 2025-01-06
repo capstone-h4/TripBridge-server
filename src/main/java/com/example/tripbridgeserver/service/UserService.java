@@ -34,7 +34,7 @@ public class UserService {
             return ResponseDTO.setFailed("중복된 Nickname 입니다.");
         }
 
-        if (!signupRequest.getPassword().equals(signupRequest.getPwCheck())) {
+        if (!signupRequest.getPassword().equals(signupRequest.getPw_check())) {
             return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
         }
 
