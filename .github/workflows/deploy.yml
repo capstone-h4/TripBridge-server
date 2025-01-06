@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             set +x
-            echo "${{ secrets.APPLICATION_PROPERTIES }}" > /home/ubuntu/.env
+            echo "${{ secrets.APPLICATION_PROPERTIES }}" | sed 's/^[ \t]*//;s/[ \t]*$//' > /home/ubuntu/.env
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tripbridge-server:latest
             docker stop tripbridge-container || true
             docker rm -f tripbridge-container || true
