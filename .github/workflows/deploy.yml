@@ -61,7 +61,7 @@ jobs:
             docker stop tripbridge-container || true
             docker rm -f tripbridge-container || true
             fuser -k 8080/tcp || true
-            docker run -it -d --name tripbridge-container -p 8080:8080 \
+            docker run -it -d --name tripbridge-container -p 8081:8080 \
             -e DB_URL="${{ secrets.DB_URL }}" \
             -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
             -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
