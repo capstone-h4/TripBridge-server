@@ -60,4 +60,5 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/tripbridge-server:latest
             docker stop tripbridge-container || true
             docker rm -f tripbridge-container || true
+            fuser -k 8080/tcp || true
             docker run -d --name tripbridge-container -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/tripbridge-server:latest
