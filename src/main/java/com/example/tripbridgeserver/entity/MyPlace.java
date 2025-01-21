@@ -19,6 +19,8 @@ public class MyPlace {
 
     private String place;
     private String address;
+
+    @Column(name = "route_order")
     private Long routeOrder;
 
     @ManyToOne
