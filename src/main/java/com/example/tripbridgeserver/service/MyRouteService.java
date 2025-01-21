@@ -122,7 +122,7 @@ public class MyRouteService {
     @Transactional
     public MyRouteResponse updateMyRoute(Long routeId, String name, Integer rate, String comment) {
         MyRoute myRoute = myRouteRepository.findById(routeId)
-                .orElseThrow(() -> new RuntimeException("저장된 동선가 없습니다."));
+                .orElseThrow(() -> new RuntimeException("저장된 동선이 없습니다."));
 
         if (name != null) myRoute.setName(name);
         if (rate != null) {
