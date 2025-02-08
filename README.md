@@ -3,7 +3,6 @@
 # 사용자 맞춤형 웹서비스, Trip Bridge
 
 ___
-
 ![Image](https://github.com/user-attachments/assets/b7aba67e-eaa5-486d-83c7-e5865a429406)
 </div>
 
