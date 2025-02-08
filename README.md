@@ -40,22 +40,27 @@
 ## 주요 기능 & 동작 시연
 <details>
 <summary>여행지 추천</summary>
+  
+<br>
+  
+![Image](https://github.com/user-attachments/assets/4515fbdb-6dbf-48bb-833a-14a59154bb57)
 
-![Image](https://github.com/user-attachments/assets/84a818f0-1d1f-4138-b379-d8b05e1fbdbf)
-
-공공데이터 포털의 한국관광공사 국문 관광정보 서비스 데이터를 이용하여 다양한 여행지를 제공합니다.
-사용자가 여행을 원하는 지역과 관광타입을 선택하면 이에 맞춰 실시간으로 공공데이터 Open API를 호출하여 다양한 여행지를 추천합니다.
+- 공공데이터 포털의 한국관광공사 국문 관광정보 서비스 데이터를 이용하여 다양한 여행지를 제공
+- 원하는 지역과 관광타입을 선택하면 실시간으로 공공데이터 API를 호출하여 다양한 여행지를 추천
 </details>
 
 <br>
 
 <details>
-  <summary>스크랩 관리 & 동선 추천</summary>
+  <summary>스크랩 관리 & 동선 추천</summary> 
 
-![Image](https://github.com/user-attachments/assets/9f397052-b1d0-49af-a05b-d323fd98879d)
+  <br>
 
-사용자는 추천 여행지와 직접 검색을 통한 여행지를 자유롭게 스크랩할 수 있습니다. 스크랩 목록에서 자유롭게 원하는 장소들을 선택하여 동선 추천받기 기능을 사용하면
-여행 계획에 도움이 될 수 있는 최적의 동선을 추천받을 수 있습니다. 추천 받은 동선은 동선 관리에 저장하여 기록을 남길 수 있습니다.
+![Image](https://github.com/user-attachments/assets/51923310-98ed-4434-a365-b1c179b0b1d8)
+
+- 추천 여행지와 직접 검색을 통한 장소 스크랩
+- 스크랩 목록에서 자유롭게 원하는 장소들을 선택하여 최적 동선 추천받기
+- 추천 받은 동선은 동선 관리에 저장하여 관리
 </details>
 
 <br>
@@ -63,10 +68,12 @@
 <details>
   <summary>챗봇</summary>
 
-![Image](https://github.com/user-attachments/assets/7a6ba4b1-bdcf-4101-bfc0-f61849239b08)
+  <br>
 
-기본적으로 제공되는 장소 정보나 추천 동선 외에 추가적으로 정보를 제공합니다.
-챗봇 인터페이스를 바탕으로 여행 기간에 따른 일정 추천, 주변 관광지 추천, 이동 수단과 예상 비용 안내를 확인할 수 있습니다.
+![Image](https://github.com/user-attachments/assets/2a8a6560-5db3-4d8d-8f30-b24760920106)
+
+- 기본적으로 제공되는 장소 정보나 추천 동선 외에 추가적인 정보 제공
+- 챗봇 인터페이스를 바탕으로 여행 기간에 따른 일정 추천, 주변 관광지 추천, 이동 수단과 예상 비용 안내 제공
   
 
 </details>
@@ -75,9 +82,10 @@
 
 
 ## 서비스 아키텍처
-![Image](https://github.com/user-attachments/assets/96532ad0-5c15-4836-996d-e4200cfd2848)
+<img width="971" alt="Image" src="https://github.com/user-attachments/assets/1c39e43a-cf26-4310-ae8a-0180f585d7be" />
 
-<br>
+<br><br>
+
 
 ## 백엔드 기술 스택
 ### BE
