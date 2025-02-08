@@ -2,7 +2,6 @@
 
 # 사용자 맞춤형 웹서비스, Trip Bridge
 
-___
 ![Image](https://github.com/user-attachments/assets/b7aba67e-eaa5-486d-83c7-e5865a429406)
 </div>
 
@@ -13,8 +12,6 @@ ___
 <br>
 
 ## 프로젝트 소개
-
-___
 **당신만의 여행을 즐길 수 있는, [Trip Bridge]** <br>
 같은 장소를 여행 하더라도 사람들은 각각의 목표와 계획에 의해 다른 여행을 합니다. 하지만 여행 계획 정보를 얻고자 검색을 하면 대부분
 유명한 관광지에 대한 정보들만 가득합니다. 이에 사용자가 보다 다양한 선택지를 가지고 여행을 할 수 있도록 서비스를 기획하였습니다.
@@ -24,16 +21,12 @@ ___
 
 
 ## 프로젝트 진행 기간
-
-___
 2024.02.12 ~ 2024.05.31 (기획 및 디자인, 개발) <br>
 2024.09.01 ~ 2024.09.20 (추가 기능 개발 및 리팩토링)
 
 <br>
 
 ## 팀원 구성 & 역할 분담
-
----
 ### Front-End
 - 백주희(팀장) : 프론트 구현(React), 프론트 배포
 - 황서현 : UI 디자인, 프론트 구현(React)
@@ -44,15 +37,14 @@ ___
 
 <br><br>
 
-## 주요기능
-
----
+## 주요 기능 & 동작 시연
 <details>
 <summary>여행지 추천</summary>
 
+![Image](https://github.com/user-attachments/assets/84a818f0-1d1f-4138-b379-d8b05e1fbdbf)
 
 공공데이터 포털의 한국관광공사 국문 관광정보 서비스 데이터를 이용하여 다양한 여행지를 제공합니다.
-사용자가 여행을 원하는 지역과 관광타입을 선택하면 이에 맞춰 공공데이터 Open API를 실시간으로 호출하여 다양한 여행지를 추천합니다.
+사용자가 여행을 원하는 지역과 관광타입을 선택하면 이에 맞춰 실시간으로 공공데이터 Open API를 호출하여 다양한 여행지를 추천합니다.
 </details>
 
 <br>
@@ -60,9 +52,10 @@ ___
 <details>
   <summary>스크랩 관리 & 동선 추천</summary>
 
-  - 자세한 설명 <br>
-    효율적인 여행 여행을 위한 동선 추천 & 내 동선 관리 <br>
-    최다거리 알고리즘
+![Image](https://github.com/user-attachments/assets/9f397052-b1d0-49af-a05b-d323fd98879d)
+
+사용자는 추천 여행지와 직접 검색을 통한 여행지를 자유롭게 스크랩할 수 있습니다. 스크랩 목록에서 자유롭게 원하는 장소들을 선택하여 동선 추천받기 기능을 사용하면
+여행 계획에 도움이 될 수 있는 최적의 동선을 추천받을 수 있습니다. 추천 받은 동선은 동선 관리에 저장하여 기록을 남길 수 있습니다.
 </details>
 
 <br>
@@ -70,41 +63,28 @@ ___
 <details>
   <summary>챗봇</summary>
 
-- 자세한 설명 <br>
-  효율적인 여행 여행을 위한 동선 추천 & 내 동선 관리 <br>
-  최다거리 알고리즘
-</details>
+![Image](https://github.com/user-attachments/assets/7a6ba4b1-bdcf-4101-bfc0-f61849239b08)
 
-<br>
-
-<details>
-  <summary>동선 저장과 주변 장소 추천</summary>
-
-- 자세한 설명 <br>
+기본적으로 제공되는 장소 정보나 추천 동선 외에 추가적으로 정보를 제공합니다.
+챗봇 인터페이스를 바탕으로 여행 기간에 따른 일정 추천, 주변 관광지 추천, 이동 수단과 예상 비용 안내를 확인할 수 있습니다.
   
+
 </details>
 
 <br>
 
 
 ## 서비스 아키텍처
-
----
 ![Image](https://github.com/user-attachments/assets/96532ad0-5c15-4836-996d-e4200cfd2848)
 
 <br>
 
 ## 백엔드 기술 스택
-
----
-
 ### BE
 ![Image](https://github.com/user-attachments/assets/03571a91-6dc6-4f85-968f-25046fe435b0)
 
 ### Infra
 ![Image](https://github.com/user-attachments/assets/b2ef712f-05e8-40bc-96f3-b0d8eaf85fbc)
-
-<br>
 
 - 언어 및 프레임워크<br>
   Java 17, Spring Boot 3.2.4, Spring Data JPA, Spring Security
@@ -127,16 +107,12 @@ ___
 
 
 ## ERD
-
----
 <img width="1119" alt="trip_erd" src="https://github.com/user-attachments/assets/ee3562f4-b884-451a-83d4-824202992907">
 <br><br>
 <br>
 
 
 ## 적용 기술과 활용
-
----
 ### 공공 데이터
 공공데이터는 정부나 공공 기관의 사업이나 연구의 운영 과정에서 수집된 다양한 데이터입니다.
 공공데이터 포털은 공공기관이 생성 또는 취득하여 관리하고 있는 공공데이터를 한 곳에서 제공하는 통합 창구로,

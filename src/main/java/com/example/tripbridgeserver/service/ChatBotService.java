@@ -98,7 +98,7 @@ public class ChatBotService {
 		}
 		promptBuilder.append("을(를) 순서대로 방문할 예정. ");
 		promptBuilder.append(schedule);
-		promptBuilder.append(" 일정을 날짜별로 추천.\\n");
+		promptBuilder.append(" 일정을 날짜별로 추천. 한국어 설명해줘\\n");
 		log.info(promptBuilder.toString());
 
 		ChatGPTRequest request = new ChatGPTRequest(model, promptBuilder.toString());
