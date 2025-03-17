@@ -82,7 +82,7 @@
 
 
 ## 서비스 아키텍처
-<img width="971" alt="Image" src="https://github.com/user-attachments/assets/1c39e43a-cf26-4310-ae8a-0180f585d7be" />
+<img width="942" alt="스크린샷 2025-03-17 오후 9 43 37" src="https://github.com/user-attachments/assets/06d75d57-0575-4605-a4c5-45dcb0328165" />
 
 <br><br>
 
