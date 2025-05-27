@@ -20,12 +20,6 @@ public class ScrapRequest { // 장소 저장 시 이용 객체
     private BigDecimal latitude;
 
     public Scrap toEntity(User user){
-        Scrap scrap = new Scrap();
-        scrap.setPlace(this.place);
-        scrap.setAddress(this.address);
-        scrap.setLongitude(this.longitude);
-        scrap.setLatitude(this.latitude);
-        scrap.setUser(user);
-        return scrap;
+        return new Scrap(place, address, latitude, longitude, user);
     }
 }

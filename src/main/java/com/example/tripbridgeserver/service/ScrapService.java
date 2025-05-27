@@ -6,6 +6,8 @@ import com.example.tripbridgeserver.entity.Scrap;
 import com.example.tripbridgeserver.entity.User;
 import com.example.tripbridgeserver.repository.ScrapRepository;
 import com.example.tripbridgeserver.repository.UserRepository;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ScrapService {
 
@@ -26,24 +30,23 @@ public class ScrapService {
         User user = userRepository.findByEmail(userEmail);
 
         if (user == null) {
+            log.warn("[스크랩 실패] 사용자 이메일 '{}'에 해당하는 유저를 찾을 수 없습니다.", userEmail);
             return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
         }
 
-        List<Scrap> userScraps = scrapRepository.findByUser(user);
-
-        for (Scrap scrap : userScraps) {
-            if (scrap.getPlace().equals(scrapRequest.getPlace())) {
-                return ResponseDTO.setFailed("해당 장소가 이미 저장되어 있습니다. 저장에 실패하였습니다.");
-            }
-        }
-
         Scrap scrap = scrapRequest.toEntity(user);
-        scrap = scrapRepository.save(scrap);
+        log.info("[스크랩 시도] 사용자 ID={}, 장소='{}'", user.getId(), scrap.getPlace());
 
-        if (scrap != null) {
-            return ResponseDTO.setSuccessData("성공적으로 저장을 완료하였습니다.", scrap);
-        } else {
-            return ResponseDTO.setFailed("저장에 실패하였습니다.");
+        try {
+            Scrap saved = scrapRepository.save(scrap);
+            log.info("[스크랩 성공] 사용자 ID={}, 장소='{}', 스크랩 ID={}", user.getId(), saved.getPlace(), saved.getId());
+            return ResponseDTO.setSuccessData("성공적으로 저장하였습니다.", saved);
+        } catch (DataIntegrityViolationException e) {
+            log.warn("[스크랩 중복] 사용자 ID={}, 장소='{}' 이미 저장된 장소입니다.", user.getId(), scrap.getPlace());
+            return ResponseDTO.setFailed("해당 장소가 이미 저장되어 있습니다.");
+        } catch (Exception e) {
+            log.error("[스크랩 오류] 사용자 ID={}, 장소='{}', 오류={}", user.getId(), scrap.getPlace(), e.getMessage(), e);
+            return ResponseDTO.setFailed("저장 중 알 수 없는 오류가 발생했습니다.");
         }
     }
 
