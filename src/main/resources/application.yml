@@ -45,3 +45,10 @@ openai:
   api:
     key: ${OPENAI_API_KEY}
     url: "https://api.openai.com/v1/chat/completions"
+
+logging:
+  level:
+    root: info
+    com.example.tripbridgeserver.service: debug
+  file:
+    name: logs/scrap-request.log
