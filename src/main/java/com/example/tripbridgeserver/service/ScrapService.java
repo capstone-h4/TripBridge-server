@@ -29,12 +29,9 @@ public class ScrapService {
             return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
         }
 
-        List<Scrap> userScraps = scrapRepository.findByUser(user);
-
-        for (Scrap scrap : userScraps) {
-            if (scrap.getPlace().equals(scrapRequest.getPlace())) {
-                return ResponseDTO.setFailed("해당 장소가 이미 저장되어 있습니다. 저장에 실패하였습니다.");
-            }
+        boolean exists = scrapRepository.existsByUserAndPlace(user, scrapRequest.getPlace());
+        if (exists) {
+            return ResponseDTO.setFailed("해당 장소가 이미 저장되어 있습니다.");
         }
 
         Scrap scrap = scrapRequest.toEntity(user);

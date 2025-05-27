@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ScrapRepository extends JpaRepository<Scrap,Long> {
     List<Scrap> findByUser(User user);
+
+	boolean existsByUserAndPlace(User user, String place);
 }
