@@ -115,7 +115,7 @@
 
 
 ## ERD
-<img width="1119" alt="trip_erd" src="https://github.com/user-attachments/assets/ee3562f4-b884-451a-83d4-824202992907">
+<img width="1119" alt="trip_erd" src="https://github.com/user-attachments/assets/5b83d168-42a3-4a08-9232-6c82ca7cdc0e">
 <br><br>
 <br>
 
