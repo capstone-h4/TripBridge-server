@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "scraps")
+@Table(name = "scraps", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "place"}))
 public class Scrap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
